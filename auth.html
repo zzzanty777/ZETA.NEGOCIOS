@@ -16,6 +16,7 @@
       justify-content: center;
       height: 100vh;
     }
+
     .container {
       background-color: rgba(255, 255, 255, 0.05);
       padding: 40px;
@@ -25,10 +26,12 @@
       width: 100%;
       text-align: center;
     }
+
     h1 {
       margin-bottom: 20px;
       font-size: 1.8rem;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -39,6 +42,7 @@
       color: white;
       font-size: 1rem;
     }
+
     button {
       width: 100%;
       padding: 12px;
@@ -51,14 +55,17 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+
     button:hover {
       background-color: #8b2bff;
     }
+
     .note {
       margin-top: 15px;
       font-size: 0.85rem;
       color: #ccc;
     }
+
     .error {
       margin-top: 10px;
       color: #ff6b6b;
@@ -74,16 +81,27 @@
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
     <p style="margin-top: 15px;">
-  <a href="#" onclick="resetPassword()" style="color: #6a0dad; text-decoration: underline;">¿Olvidaste tu contraseña?</a>
-</p>
+      <a href="#" onclick="resetPassword()" style="color: #6a0dad; text-decoration: underline;">¿Olvidaste tu contraseña?</a>
+    </p>
     <p class="note">El registro te da acceso al plan Free. Podés pasar a Pro luego.</p>
     <p class="error" id="errorMsg"></p>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
@@ -137,26 +155,30 @@
     };
 
     window.resetPassword = async () => {
-  const email = emailInput.value.trim();
-  if (!email) {
-    errorMsg.textContent = "Ingresá tu correo para restablecer la contraseña.";
-    return;
-  }
+      const email = emailInput.value.trim();
+      if (!email) {
+        errorMsg.textContent = "Ingresá tu correo para restablecer la contraseña.";
+        errorMsg.style.color = "#ff6b6b";
+        return;
+      }
 
-  try {
-    await auth.sendPasswordResetEmail(email);
-    errorMsg.style.color = "#4caf50";
-    errorMsg.textContent = "Te enviamos un correo para restablecer la contraseña.";
-  } catch (err) {
-    if (err.code === "auth/user-not-found") {
-      errorMsg.textContent = "No existe una cuenta con ese correo.";
-    } else {
-      errorMsg.textContent = "Error al enviar el correo: " + err.message;
-    }
-  }
-};
+      try {
+        await sendPasswordResetEmail(auth, email);
+        errorMsg.style.color = "#4caf50";
+        errorMsg.textContent = "Te enviamos un correo para restablecer la contraseña.";
+      } catch (err) {
+        if (err.code === "auth/user-not-found") {
+          errorMsg.style.color = "#ff6b6b";
+          errorMsg.textContent = "No existe una cuenta con ese correo.";
+        } else {
+          errorMsg.style.color = "#ff6b6b";
+          errorMsg.textContent = "Error al enviar el correo: " + err.message;
+        }
+      }
+    };
 
     function handleError(error) {
+      errorMsg.style.color = "#ff6b6b";
       if (error.code === "auth/email-already-in-use") {
         errorMsg.textContent = "Este correo ya está registrado.";
       } else if (error.code === "auth/invalid-email") {
@@ -172,6 +194,7 @@
   </script>
 </body>
 </html>
+
 
 
 
