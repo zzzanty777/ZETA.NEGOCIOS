@@ -16,7 +16,6 @@
       justify-content: center;
       height: 100vh;
     }
-
     .container {
       background-color: rgba(255, 255, 255, 0.05);
       padding: 40px;
@@ -26,12 +25,10 @@
       width: 100%;
       text-align: center;
     }
-
     h1 {
       margin-bottom: 20px;
       font-size: 1.8rem;
     }
-
     input {
       width: 100%;
       padding: 12px;
@@ -42,7 +39,6 @@
       color: white;
       font-size: 1rem;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -55,17 +51,14 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
-
     button:hover {
       background-color: #8b2bff;
     }
-
     .note {
       margin-top: 15px;
       font-size: 0.85rem;
       color: #ccc;
     }
-
     .error {
       margin-top: 10px;
       color: #ff6b6b;
@@ -76,12 +69,12 @@
 <body>
   <div class="container">
     <h1>Acceso a ZetaForge</h1>
-    <input type="email" id="email" placeholder="Correo electrónico" />
-    <input type="password" id="password" placeholder="Contraseña" />
+    <input type="email" id="email" placeholder="Correo electrónico" autocomplete="email" />
+    <input type="password" id="password" placeholder="Contraseña" autocomplete="current-password" />
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
     <p style="margin-top: 15px;">
-      <a href="reset.html" style="color: #6a0dad; text-decoration: underline;">¿Olvidaste tu contraseña?</a>
+      <a href="reset.html" style="color: #6a0dad; text-decoration: underline;">&#xbf;Olvidaste tu contraseña?</a>
     </p>
     <p class="note">El registro te da acceso al plan Free. Podés pasar a Pro luego.</p>
     <p class="error" id="errorMsg"></p>
@@ -123,11 +116,8 @@
 
       try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "usuarios", userCred.user.uid), {
-          email,
-          tipo: "Free"
-        });
-        redirectByRole("Free");
+        await setDoc(doc(db, "usuarios", userCred.user.uid), { email, tipo: "Free" });
+        window.location.href = "dashboard.html";
       } catch (err) {
         handleError(err);
       }
@@ -142,39 +132,15 @@
         const userCred = await signInWithEmailAndPassword(auth, email, password);
         const docSnap = await getDoc(doc(db, "usuarios", userCred.user.uid));
         const tipo = docSnap.data()?.tipo || "Free";
-        redirectByRole(tipo);
+        window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
       } catch (err) {
         handleError(err);
       }
     };
 
-    function redirectByRole(tipo) {
-      if (tipo === "Pro") {
-        window.location.href = "pro.html";
-      } else {
-        window.location.href = "dashboard.html";
-      }
-    }
-
-    window.resetPassword = async () => {
-      const email = emailInput.value.trim();
-      if (!email) return showError("Ingresá tu correo para restablecer la contraseña.");
-
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showError("Te enviamos un correo para restablecer la contraseña.", "#4caf50");
-      } catch (err) {
-        if (err.code === "auth/user-not-found") {
-          showError("No existe una cuenta con ese correo.");
-        } else {
-          showError("Error al enviar el correo: " + err.message);
-        }
-      }
-    };
-
-    function showError(msg, color = "#ff6b6b") {
-      errorMsg.textContent = msg;
+    function showError(message, color = "#ff6b6b") {
       errorMsg.style.color = color;
+      errorMsg.textContent = message;
     }
 
     function handleError(error) {
