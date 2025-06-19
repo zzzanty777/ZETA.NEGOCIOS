@@ -158,5 +158,21 @@
         const tipo = docSnap.data()?.tipo || "Free";
 
         if (tipo === "Pro") {
+          window.location.href = "pro.html";
+        } else {
+          window.location.href = "dashboard.html";
+        }
+      } catch (error) {
+        if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+          errorMsg.textContent = "Correo o contraseña incorrectos.";
+        } else {
+          errorMsg.textContent = "Error al iniciar sesión.";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+
 
 
