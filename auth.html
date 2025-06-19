@@ -145,11 +145,6 @@
       }
     };
 
-    function showError(message, color = "#ff6b6b") {
-      errorMsg.style.color = color;
-      errorMsg.textContent = message;
-    }
-
     window.resetPassword = async () => {
       const email = emailInput.value.trim();
       if (!email) return showError("Ingresá tu correo para restablecer la contraseña.");
@@ -165,6 +160,11 @@
         }
       }
     };
+
+    function showError(message, color = "#ff6b6b") {
+      errorMsg.style.color = color;
+      errorMsg.textContent = message;
+    }
 
     function handleError(error) {
       if (error.code === "auth/email-already-in-use") {
@@ -182,6 +182,7 @@
   </script>
 </body>
 </html>
+
 
 
 
