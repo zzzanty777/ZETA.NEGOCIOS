@@ -71,41 +71,51 @@
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
+      console.log("Verificando sesión...");
+
       if (!user) {
+        console.warn("Usuario no autenticado. Redirigiendo a auth.html");
         window.location.href = "auth.html";
         return;
       }
 
       try {
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
+        const userRef = doc(db, "usuarios", user.uid);
+        const userSnap = await getDoc(userRef);
 
-        if (!docSnap.exists()) {
+        if (!userSnap.exists()) {
+          console.error("El documento del usuario no existe.");
           await signOut(auth);
           window.location.href = "auth.html";
           return;
         }
 
-        const tipo = docSnap.data().tipo;
+        const tipo = userSnap.data().tipo || "Free";
+        console.log("Tipo de usuario:", tipo);
+
         if (tipo === "Pro") {
+          console.log("Redirigiendo a pro.html");
           window.location.href = "pro.html";
+        } else {
+          console.log("Permaneciendo en dashboard (Free)");
         }
 
-        // Si es Free, se queda aquí
-      } catch (err) {
-        console.error("Error obteniendo datos:", err);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario:", error);
         await signOut(auth);
         window.location.href = "auth.html";
       }
     });
 
     window.logout = async () => {
+      console.log("Cerrando sesión...");
       await signOut(auth);
       window.location.href = "auth.html";
     };
   </script>
 </body>
 </html>
+
 
 
 
