@@ -73,6 +73,9 @@
     <input type="password" id="password" placeholder="Contraseña" />
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
+    <p style="margin-top: 15px;">
+  <a href="#" onclick="resetPassword()" style="color: #6a0dad; text-decoration: underline;">¿Olvidaste tu contraseña?</a>
+</p>
     <p class="note">El registro te da acceso al plan Free. Podés pasar a Pro luego.</p>
     <p class="error" id="errorMsg"></p>
   </div>
@@ -132,6 +135,26 @@
         handleError(err);
       }
     };
+
+    window.resetPassword = async () => {
+  const email = emailInput.value.trim();
+  if (!email) {
+    errorMsg.textContent = "Ingresá tu correo para restablecer la contraseña.";
+    return;
+  }
+
+  try {
+    await auth.sendPasswordResetEmail(email);
+    errorMsg.style.color = "#4caf50";
+    errorMsg.textContent = "Te enviamos un correo para restablecer la contraseña.";
+  } catch (err) {
+    if (err.code === "auth/user-not-found") {
+      errorMsg.textContent = "No existe una cuenta con ese correo.";
+    } else {
+      errorMsg.textContent = "Error al enviar el correo: " + err.message;
+    }
+  }
+};
 
     function handleError(error) {
       if (error.code === "auth/email-already-in-use") {
