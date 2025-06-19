@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>ZetaForge - Área Free</title>
+</head>
+<body>
+  <h1>Bienvenido a ZetaForge Free</h1>
+  <p>A continuación podés completar tu formulario de negocio gratuito:</p>
+  <a href="https://tally.so/r/m6GvdB" target="_blank">📋 Empezar ahora</a>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "auth.html";
+      } else {
+        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+        if (!docSnap.exists() || docSnap.data().tipo !== "Free") {
+          window.location.href = "pro.html";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
