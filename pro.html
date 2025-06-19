@@ -70,26 +70,33 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "auth.html";
-        return;
-      }
+   onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "auth.html";
+    return;
+  }
 
-      try {
-        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-        const tipo = docSnap.data()?.tipo;
+  try {
+    const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+    if (!docSnap.exists()) {
+      console.warn("El documento del usuario no existe en Firestore.");
+      window.location.href = "dashboard.html";
+      return;
+    }
 
-        if (tipo !== "Pro") {
-          window.location.href = "dashboard.html";
-        }
-        // Si es Pro, se queda aquí.
-      } catch (err) {
-        console.error("Error obteniendo usuario:", err);
-        await signOut(auth);
-        window.location.href = "auth.html";
-      }
-    });
+    const tipo = docSnap.data().tipo;
+    console.log("Tipo de cuenta:", tipo);
+
+    if (tipo !== "Pro") {
+      window.location.href = "dashboard.html";
+    }
+  } catch (err) {
+    console.error("Error leyendo Firestore:", err);
+    await signOut(auth);
+    window.location.href = "auth.html";
+  }
+});
+
 
     window.logout = async () => {
       await signOut(auth);
