@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ZetaForge Pro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -13,17 +13,14 @@
       color: #fff;
       text-align: center;
     }
-
     h1 {
       font-size: 2rem;
       margin-bottom: 10px;
     }
-
     p {
       font-size: 1.1rem;
       margin-bottom: 20px;
     }
-
     a.button {
       display: inline-block;
       padding: 12px 25px;
@@ -34,11 +31,9 @@
       font-weight: 600;
       transition: all 0.3s ease;
     }
-
     a.button:hover {
       background-color: #8b2bff;
     }
-
     .logout {
       margin-top: 30px;
       font-size: 0.9rem;
@@ -70,33 +65,19 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-   onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "auth.html";
-    return;
-  }
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "auth.html";
+        return;
+      }
 
-  try {
-    const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-    if (!docSnap.exists()) {
-      console.warn("El documento del usuario no existe en Firestore.");
-      window.location.href = "dashboard.html";
-      return;
-    }
+      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+      const tipo = userDoc.exists() ? userDoc.data().tipo : "Free";
 
-    const tipo = docSnap.data().tipo;
-    console.log("Tipo de cuenta:", tipo);
-
-    if (tipo !== "Pro") {
-      window.location.href = "dashboard.html";
-    }
-  } catch (err) {
-    console.error("Error leyendo Firestore:", err);
-    await signOut(auth);
-    window.location.href = "auth.html";
-  }
-});
-
+      if (tipo !== "Pro") {
+        window.location.href = "dashboard.html";
+      }
+    });
 
     window.logout = async () => {
       await signOut(auth);
