@@ -171,6 +171,77 @@
       }
     }
   </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+    authDomain: "zetaforgeapp.firebaseapp.com",
+    projectId: "zetaforgeapp"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const emailInput = document.getElementById("email");
+  const passInput = document.getElementById("password");
+  const errorMsg = document.getElementById("errorMsg");
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+      const tipo = docSnap.data()?.tipo || "Free";
+      window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+    }
+  });
+
+  window.register = async () => {
+    const email = emailInput.value.trim();
+    const password = passInput.value.trim();
+    if (!email || !password) return errorMsg.textContent = "Completá todos los campos.";
+
+    try {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "usuarios", userCred.user.uid), { email, tipo: "Free" });
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  window.login = async () => {
+    const email = emailInput.value.trim();
+    const password = passInput.value.trim();
+    if (!email || !password) return errorMsg.textContent = "Completá todos los campos.";
+
+    try {
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      const docSnap = await getDoc(doc(db, "usuarios", userCred.user.uid));
+      const tipo = docSnap.data()?.tipo || "Free";
+      window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  function handleError(error) {
+    if (error.code === "auth/email-already-in-use") {
+      errorMsg.textContent = "Este correo ya está registrado.";
+    } else if (error.code === "auth/invalid-email") {
+      errorMsg.textContent = "Correo inválido.";
+    } else if (error.code === "auth/weak-password") {
+      errorMsg.textContent = "La contraseña debe tener al menos 6 caracteres.";
+    } else if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+      errorMsg.textContent = "Correo o contraseña incorrectos.";
+    } else {
+      errorMsg.textContent = "Error inesperado: " + error.message;
+    }
+  }
+</script>
+
 </body>
 </html>
 
