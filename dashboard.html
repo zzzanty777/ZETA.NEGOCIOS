@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ZetaForge - Área Free</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -13,17 +13,14 @@
       color: #fff;
       text-align: center;
     }
-
     h1 {
       font-size: 2rem;
       margin-bottom: 10px;
     }
-
     p {
       font-size: 1.1rem;
       margin-bottom: 20px;
     }
-
     a.button {
       display: inline-block;
       padding: 12px 25px;
@@ -34,11 +31,9 @@
       font-weight: 600;
       transition: all 0.3s ease;
     }
-
     a.button:hover {
       background-color: #8b2bff;
     }
-
     .logout {
       margin-top: 30px;
       font-size: 0.9rem;
@@ -72,32 +67,15 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        // No logueado → redirigir al login
         window.location.href = "auth.html";
         return;
       }
 
-      try {
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
+      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+      const tipo = userDoc.exists() ? userDoc.data().tipo : "Free";
 
-        if (!docSnap.exists()) {
-          // Si no existe el usuario → cerrar sesión por seguridad
-          await signOut(auth);
-          window.location.href = "auth.html";
-          return;
-        }
-
-        const tipo = docSnap.data()?.tipo;
-
-        if (tipo === "Pro") {
-          window.location.href = "pro.html";
-        }
-        // Si es Free, se queda en esta página
-      } catch (error) {
-        console.error("Error al validar tipo de usuario:", error);
-        await signOut(auth);
-        window.location.href = "auth.html";
+      if (tipo === "Pro") {
+        window.location.href = "pro.html";
       }
     });
 
