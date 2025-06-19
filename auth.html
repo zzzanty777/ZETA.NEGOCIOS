@@ -123,8 +123,11 @@
 
       try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "usuarios", userCred.user.uid), { email, tipo: "Free" });
-        window.location.href = "dashboard.html";
+        await setDoc(doc(db, "usuarios", userCred.user.uid), {
+          email,
+          tipo: "Free"
+        });
+        redirectByRole("Free");
       } catch (err) {
         handleError(err);
       }
@@ -139,11 +142,19 @@
         const userCred = await signInWithEmailAndPassword(auth, email, password);
         const docSnap = await getDoc(doc(db, "usuarios", userCred.user.uid));
         const tipo = docSnap.data()?.tipo || "Free";
-        window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+        redirectByRole(tipo);
       } catch (err) {
         handleError(err);
       }
     };
+
+    function redirectByRole(tipo) {
+      if (tipo === "Pro") {
+        window.location.href = "pro.html";
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    }
 
     window.resetPassword = async () => {
       const email = emailInput.value.trim();
@@ -161,9 +172,9 @@
       }
     };
 
-    function showError(message, color = "#ff6b6b") {
+    function showError(msg, color = "#ff6b6b") {
+      errorMsg.textContent = msg;
       errorMsg.style.color = color;
-      errorMsg.textContent = message;
     }
 
     function handleError(error) {
