@@ -1,18 +1,81 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>ZetaForge – Iniciar sesión</title>
+  <title>ZetaForge - Acceso</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: white;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background-color: #6a0dad;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #8b2bff;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+  </style>
 </head>
 <body>
-  <h1>Iniciar sesión / Registrarse</h1>
-
-  <input type="email" id="email" placeholder="Email"><br>
-  <input type="password" id="password" placeholder="Contraseña"><br>
-
-  <button onclick="login()">Iniciar sesión</button>
-  <button onclick="register()">Registrarse como Free</button>
-  <button onclick="registerPro()">Registrarse como Pro</button>
+  <div class="container">
+    <h1>Iniciar sesión o registrarse</h1>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="login()">Iniciar sesión</button>
+    <button onclick="register()">Registrarse</button>
+    <p class="note">Al registrarte accedes al plan Free. Luego podrás subir a Pro si lo deseás.</p>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -22,17 +85,14 @@
     const firebaseConfig = {
       apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
       authDomain: "zetaforgeapp.firebaseapp.com",
-      projectId: "zetaforgeapp",
-      storageBucket: "zetaforgeapp.firebasestorage.app",
-      messagingSenderId: "1015082894165",
-      appId: "1:1015082894165:web:4fa8f77a6021aa23cd65dc"
+      projectId: "zetaforgeapp"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    async function register(plan = "Free") {
+    async function register() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
@@ -41,14 +101,10 @@
 
       await setDoc(doc(db, "usuarios", uid), {
         email: email,
-        tipo: plan
+        tipo: "Free"
       });
 
       window.location.href = "dashboard.html";
-    }
-
-    function registerPro() {
-      register("Pro");
     }
 
     async function login() {
@@ -59,7 +115,7 @@
       const uid = userCredential.user.uid;
 
       const userDoc = await getDoc(doc(db, "usuarios", uid));
-      const tipo = userDoc.data().tipo;
+      const tipo = userDoc.data()?.tipo || "Free";
 
       if (tipo === "Pro") {
         window.location.href = "pro.html";
@@ -70,3 +126,4 @@
   </script>
 </body>
 </html>
+
