@@ -67,15 +67,35 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
+        console.warn("No hay usuario autenticado. Redirigiendo al login.");
         window.location.href = "auth.html";
         return;
       }
 
-      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-      const tipo = userDoc.exists() ? userDoc.data().tipo : "Free";
+      try {
+        const userRef = doc(db, "usuarios", user.uid);
+        const userDoc = await getDoc(userRef);
 
-      if (tipo === "Pro") {
-        window.location.href = "pro.html";
+        if (!userDoc.exists()) {
+          console.warn("No existe documento Firestore para este usuario. Redirigiendo al login.");
+          await signOut(auth);
+          window.location.href = "auth.html";
+          return;
+        }
+
+        const tipo = userDoc.data().tipo;
+        console.log("Usuario autenticado con tipo:", tipo);
+
+        if (tipo === "Pro") {
+          console.log("Redirigiendo a Pro...");
+          window.location.href = "pro.html";
+        }
+        // Si es Free, se queda aquí
+
+      } catch (err) {
+        console.error("Error al verificar el usuario:", err.message);
+        await signOut(auth);
+        window.location.href = "auth.html";
       }
     });
 
