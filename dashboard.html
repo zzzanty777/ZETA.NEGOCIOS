@@ -25,12 +25,19 @@
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "auth.html";
-      } else {
-        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-        if (!docSnap.exists() || docSnap.data().tipo !== "Free") {
-          window.location.href = "pro.html";
+  if (user) {
+    const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+    const tipo = docSnap.data()?.tipo || "Free";
+    const currentPage = window.location.pathname;
+
+    if (tipo === "Pro" && !currentPage.includes("pro.html")) {
+      window.location.href = "pro.html";
+    } else if (tipo === "Free" && !currentPage.includes("dashboard.html")) {
+      window.location.href = "dashboard.html";
+    }
+  }
+});
+
         }
       }
     });
