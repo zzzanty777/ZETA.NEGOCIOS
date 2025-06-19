@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Restablecer contraseña - ZetaForge</title>
+  <title>ZetaForge - Restablecer Contraseña</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #fff;
@@ -15,6 +16,7 @@
       justify-content: center;
       height: 100vh;
     }
+
     .container {
       background-color: rgba(255, 255, 255, 0.05);
       padding: 40px;
@@ -24,10 +26,12 @@
       width: 100%;
       text-align: center;
     }
+
     h1 {
       margin-bottom: 20px;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -38,6 +42,7 @@
       color: white;
       font-size: 1rem;
     }
+
     button {
       width: 100%;
       padding: 12px;
@@ -50,28 +55,40 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+
     button:hover {
       background-color: #8b2bff;
     }
+
     .message {
       margin-top: 15px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+    }
+
+    .success {
       color: #4caf50;
     }
+
     .error {
-      margin-top: 10px;
       color: #ff6b6b;
+    }
+
+    a {
+      color: #ccc;
+      display: inline-block;
+      margin-top: 20px;
       font-size: 0.9rem;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Restablecer contraseña</h1>
-    <input type="email" id="resetEmail" placeholder="Tu correo electrónico" />
-    <button onclick="sendReset()">Enviar enlace</button>
-    <p class="message" id="successMsg"></p>
-    <p class="error" id="errorMsg"></p>
+    <h1>¿Olvidaste tu contraseña?</h1>
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <button onclick="sendReset()">Enviar correo de recuperación</button>
+    <p id="msg" class="message"></p>
+    <a href="auth.html">← Volver al inicio de sesión</a>
   </div>
 
   <script type="module">
@@ -87,29 +104,33 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    window.sendReset = async () => {
-      const email = document.getElementById("resetEmail").value.trim();
-      const successMsg = document.getElementById("successMsg");
-      const errorMsg = document.getElementById("errorMsg");
-      successMsg.textContent = "";
-      errorMsg.textContent = "";
+    const emailInput = document.getElementById("email");
+    const msg = document.getElementById("msg");
 
+    window.sendReset = async () => {
+      const email = emailInput.value.trim();
       if (!email) {
-        errorMsg.textContent = "Ingresá tu correo.";
+        msg.textContent = "Por favor, ingresá tu correo.";
+        msg.className = "message error";
         return;
       }
 
       try {
         await sendPasswordResetEmail(auth, email);
-        successMsg.textContent = "Correo enviado. Revisá tu bandeja de entrada.";
+        msg.textContent = "Te enviamos un correo para restablecer tu contraseña.";
+        msg.className = "message success";
       } catch (error) {
         if (error.code === "auth/user-not-found") {
-          errorMsg.textContent = "No existe una cuenta con ese correo.";
+          msg.textContent = "No existe una cuenta con ese correo.";
+        } else if (error.code === "auth/invalid-email") {
+          msg.textContent = "Correo inválido.";
         } else {
-          errorMsg.textContent = "Error: " + error.message;
+          msg.textContent = "Ocurrió un error: " + error.message;
         }
+        msg.className = "message error";
       }
     };
   </script>
 </body>
 </html>
+
