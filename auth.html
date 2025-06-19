@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -65,21 +65,28 @@
       font-size: 0.85rem;
       color: #ccc;
     }
+
+    .error {
+      margin-top: 10px;
+      color: #ff6b6b;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Iniciar sesión o registrarse</h1>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Contraseña">
+    <h1>Acceso a ZetaForge</h1>
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <input type="password" id="password" placeholder="Contraseña" />
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
-    <p class="note">Al registrarte accedes al plan Free. Luego podrás subir a Pro si lo deseás.</p>
+    <p class="note">El registro te da acceso al plan Free. Podés pasar a Pro luego.</p>
+    <p class="error" id="errorMsg"></p>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -92,38 +99,64 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // Si ya está logueado, lo redirige
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+        const tipo = docSnap.data()?.tipo || "Free";
+        if (tipo === "Pro") {
+          window.location.href = "pro.html";
+        } else {
+          window.location.href = "dashboard.html";
+        }
+      }
+    });
+
     async function register() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
 
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = userCredential.user.uid;
+      if (!email || !password) {
+        errorMsg.textContent = "Por favor completá todos los campos.";
+        return;
+      }
 
-      await setDoc(doc(db, "usuarios", uid), {
-        email: email,
-        tipo: "Free"
-      });
-
-      window.location.href = "dashboard.html";
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "usuarios", userCredential.user.uid), {
+          email: email,
+          tipo: "Free"
+        });
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+          errorMsg.textContent = "Este correo ya está registrado.";
+        } else if (error.code === "auth/invalid-email") {
+          errorMsg.textContent = "Correo inválido.";
+        } else if (error.code === "auth/weak-password") {
+          errorMsg.textContent = "La contraseña debe tener al menos 6 caracteres.";
+        } else {
+          errorMsg.textContent = "Error al registrarse.";
+        }
+      }
     }
 
     async function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
 
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const uid = userCredential.user.uid;
-
-      const userDoc = await getDoc(doc(db, "usuarios", uid));
-      const tipo = userDoc.data()?.tipo || "Free";
-
-      if (tipo === "Pro") {
-        window.location.href = "pro.html";
-      } else {
-        window.location.href = "dashboard.html";
+      if (!email || !password) {
+        errorMsg.textContent = "Completá todos los campos.";
+        return;
       }
-    }
-  </script>
-</body>
-</html>
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const docSnap = await getDoc(doc(db, "usuarios", userCredential.user.uid));
+        const tipo = docSnap.data()?.tipo || "Free";
+
+        if (tipo === "Pro") {
+
 
