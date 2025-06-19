@@ -53,7 +53,6 @@
   <p>A continuación podés completar tu formulario de negocio gratuito:</p>
   <a href="https://tally.so/r/m6GvdB" class="button" target="_blank">📋 Empezar ahora</a>
 
-  <!-- Botón opcional para cerrar sesión -->
   <p class="logout" onclick="logout()">Cerrar sesión</p>
 
   <script type="module">
@@ -72,14 +71,22 @@
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-        const tipo = docSnap.data()?.tipo || "Free";
-        if (tipo === "Pro") {
-          window.location.href = "pro.html";
-        }
-      } else {
-        window.location.href = "auth.html"; // Si no está logueado, redirige al login
+      if (!user) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      const docRef = doc(db, "usuarios", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      const tipo = docSnap.data()?.tipo || "Free";
+      if (tipo === "Pro") {
+        window.location.href = "pro.html";
       }
     });
 
@@ -90,3 +97,4 @@
   </script>
 </body>
 </html>
+
