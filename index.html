@@ -4,69 +4,92 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZetaForge - Crea tu negocio con IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: #0d0d0d;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #f4f4f4;
+      line-height: 1.6;
     }
     header {
-      padding: 60px 20px;
+      padding: 80px 20px 60px;
       text-align: center;
       background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      font-weight: 700;
       margin-bottom: 10px;
     }
     p.subtitle {
       font-size: 1.2rem;
-      color: #aaa;
+      color: #c0c0c0;
       margin-bottom: 30px;
     }
     .cta {
       background-color: #6a0dad;
       color: white;
-      padding: 15px 30px;
+      padding: 15px 35px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 1rem;
       text-decoration: none;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 14px rgba(106, 13, 173, 0.4);
     }
     .cta:hover {
       background-color: #8b2bff;
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(139, 43, 255, 0.4);
     }
     section {
-      padding: 60px 20px;
-      max-width: 800px;
+      padding: 70px 20px;
+      max-width: 900px;
       margin: auto;
     }
     h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: 2rem;
+      margin-bottom: 25px;
       border-left: 5px solid #6a0dad;
-      padding-left: 10px;
+      padding-left: 12px;
     }
     .examples, .reasons, .testimonials {
-      background-color: #161616;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 40px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 50px;
+      backdrop-filter: blur(8px);
     }
     ul {
       list-style: none;
       padding-left: 0;
     }
     li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     footer {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       font-size: 0.9rem;
-      color: #777;
+      color: #888;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: #0d0d0d;
+    }
+    a.cta.secondary {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: transparent;
+      border: 2px solid #6a0dad;
+      color: #6a0dad;
+    }
+    a.cta.secondary:hover {
+      background-color: #6a0dad;
+      color: white;
     }
   </style>
 </head>
@@ -117,8 +140,9 @@
   </section>
 
   <section>
-    <h2>Listo para empezar?</h2>
+    <h2>¡Listo para empezar?</h2>
     <a href="https://tally.so/r/m6GvdB" class="cta">Crear mi negocio ahora</a>
+    <a href="#" class="cta secondary">Ver ejemplos</a>
   </section>
 
   <footer>
@@ -126,3 +150,4 @@
   </footer>
 </body>
 </html>
+
