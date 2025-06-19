@@ -94,7 +94,8 @@
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
       onAuthStateChanged,
-      sendPasswordResetEmail
+      sendPasswordResetEmail,
+      signOut
     } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
     import {
       getFirestore,
@@ -117,34 +118,20 @@
     const passInput = document.getElementById("password");
     const errorMsg = document.getElementById("errorMsg");
 
-    // Redirección controlada según tipo de cuenta
+    // NO redirigir automáticamente aquí, solo informativo
     onAuthStateChanged(auth, async (user) => {
-  if (!user) return; // no redirige si no hay sesión activa
-
-  try {
-    const docRef = doc(db, "usuarios", user.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (!docSnap.exists()) {
-      // Si el documento no existe, cerramos sesión y redirigimos
-      await signOut(auth);
-      window.location.href = "auth.html";
-      return;
-    }
-
-    const tipo = docSnap.data()?.tipo || "Free";
-
-    if (tipo === "Pro") {
-      window.location.href = "pro.html";
-    } else {
-      window.location.href = "dashboard.html";
-    }
-  } catch (error) {
-    console.error("Error al obtener datos del usuario:", error);
-    await signOut(auth); // previene loops por errores inesperados
-    window.location.href = "auth.html";
-  }
-});
+      if (user) {
+        try {
+          const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+          if (!docSnap.exists()) {
+            await signOut(auth);
+          }
+          // No redirige automáticamente para evitar loops
+        } catch (e) {
+          console.error("Error al verificar sesión:", e);
+        }
+      }
+    });
 
     window.register = async () => {
       const email = emailInput.value.trim();
@@ -154,7 +141,7 @@
       try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, "usuarios", userCred.user.uid), { email, tipo: "Free" });
-        window.location.href = "dashboard.html";
+        redirectToTipo("Free");
       } catch (err) {
         handleError(err);
       }
@@ -168,50 +155,7 @@
       try {
         const userCred = await signInWithEmailAndPassword(auth, email, password);
         const docSnap = await getDoc(doc(db, "usuarios", userCred.user.uid));
-        const tipo = docSnap.data()?.tipo || "Free";
-        window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
-      } catch (err) {
-        handleError(err);
-      }
-    };
-
-    function showError(message, color = "#ff6b6b") {
-      errorMsg.style.color = color;
-      errorMsg.textContent = message;
-    }
-
-    window.resetPassword = async () => {
-      const email = emailInput.value.trim();
-      if (!email) return showError("Ingresá tu correo para restablecer la contraseña.");
-
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showError("Te enviamos un correo para restablecer la contraseña.", "#4caf50");
-      } catch (err) {
-        if (err.code === "auth/user-not-found") {
-          showError("No existe una cuenta con ese correo.");
-        } else {
-          showError("Error al enviar el correo: " + err.message);
-        }
-      }
-    };
-
-    function handleError(error) {
-      if (error.code === "auth/email-already-in-use") {
-        showError("Este correo ya está registrado.");
-      } else if (error.code === "auth/invalid-email") {
-        showError("Correo inválido.");
-      } else if (error.code === "auth/weak-password") {
-        showError("La contraseña debe tener al menos 6 caracteres.");
-      } else if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
-        showError("Correo o contraseña incorrectos.");
-      } else {
-        showError("Error inesperado: " + error.message);
-      }
-    }
-  </script>
-</body>
-</html>
+        const tipo = docSnap.exists() ? docSnap.data().tipo : "Free";
 
 
 
