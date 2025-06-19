@@ -119,18 +119,32 @@
 
     // Redirección controlada según tipo de cuenta
     onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-        const tipo = docSnap.data()?.tipo || "Free";
-        const currentPage = window.location.pathname;
+  if (!user) return; // no redirige si no hay sesión activa
 
-        if (tipo === "Pro" && !currentPage.includes("pro.html")) {
-          window.location.href = "pro.html";
-        } else if (tipo === "Free" && !currentPage.includes("dashboard.html")) {
-          window.location.href = "dashboard.html";
-        }
-      }
-    });
+  try {
+    const docRef = doc(db, "usuarios", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      // Si el documento no existe, cerramos sesión y redirigimos
+      await signOut(auth);
+      window.location.href = "auth.html";
+      return;
+    }
+
+    const tipo = docSnap.data()?.tipo || "Free";
+
+    if (tipo === "Pro") {
+      window.location.href = "pro.html";
+    } else {
+      window.location.href = "dashboard.html";
+    }
+  } catch (error) {
+    console.error("Error al obtener datos del usuario:", error);
+    await signOut(auth); // previene loops por errores inesperados
+    window.location.href = "auth.html";
+  }
+});
 
     window.register = async () => {
       const email = emailInput.value.trim();
