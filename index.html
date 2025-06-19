@@ -107,7 +107,7 @@
   <header>
     <h1>ZetaForge</h1>
     <p class="subtitle">Crea tu negocio en segundos con inteligencia artificial</p>
-    <a href="https://tally.so/r/m6GvdB" class="cta">Empezar ahora</a>
+    <a href="#" class="cta" id="startBtn">Empezar ahora</a>
   </header>
 
   <section>
@@ -161,5 +161,38 @@
   </div>
 </footer>
 </body>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+    authDomain: "zetaforgeapp.firebaseapp.com",
+    projectId: "zetaforgeapp"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById("startBtn").addEventListener("click", () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "auth.html";
+      } else {
+        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+        const tipo = userDoc.data()?.tipo || "Free";
+
+        if (tipo === "Pro") {
+          window.location.href = "pro.html";
+        } else {
+          window.location.href = "dashboard.html";
+        }
+      }
+    });
+  });
+</script>
+
 </html>
 
