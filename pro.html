@@ -71,14 +71,22 @@
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-        const tipo = docSnap.data()?.tipo || "Free";
-        if (tipo !== "Pro") {
-          window.location.href = "dashboard.html";
-        }
-      } else {
+      if (!user) {
         window.location.href = "auth.html";
+        return;
+      }
+
+      const docRef = doc(db, "usuarios", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        window.location.href = "dashboard.html";
+        return;
+      }
+
+      const tipo = docSnap.data()?.tipo || "Free";
+      if (tipo !== "Pro") {
+        window.location.href = "dashboard.html";
       }
     });
 
