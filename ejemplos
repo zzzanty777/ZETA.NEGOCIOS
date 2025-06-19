@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><title>Ejemplos - ZetaForge</title></head>
+<body style="background: #111; color: #fff; font-family: Inter, sans-serif;">
+  <!-- incluir NAVBAR aquí -->
+  <h1 style="text-align:center; margin-top: 60px;">Ejemplos de negocios creados con ZetaForge</h1>
+  <div style="max-width: 800px; margin: 40px auto;">
+    <div style="margin-bottom: 30px; background: #1a1a1a; padding: 20px; border-radius: 12px;">
+      <h3>UrbanNova</h3>
+      <p><em>"La ciudad se viste contigo"</em></p>
+      <p>Sector: Moda urbana</p>
+    </div>
+    <div style="margin-bottom: 30px; background: #1a1a1a; padding: 20px; border-radius: 12px;">
+      <h3>FoodAI</h3>
+      <p><em>"Comé bien, sin pensar"</em></p>
+      <p>Sector: Comida saludable</p>
+    </div>
+    <div style="margin-bottom: 30px; background: #1a1a1a; padding: 20px; border-radius: 12px;">
+      <h3>HustleGo</h3>
+      <p><em>"Negocios en movimiento"</em></p>
+      <p>Sector: Consultoría digital</p>
+    </div>
+  </div>
+</body>
+</html>
