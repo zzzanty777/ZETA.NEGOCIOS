@@ -77,23 +77,15 @@
       }
 
       try {
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (!docSnap.exists()) {
-          await signOut(auth);
-          window.location.href = "auth.html";
-          return;
-        }
-
-        const tipo = docSnap.data()?.tipo || "Free";
+        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+        const tipo = docSnap.data()?.tipo;
 
         if (tipo !== "Pro") {
           window.location.href = "dashboard.html";
         }
-
-      } catch (error) {
-        console.error("Error al obtener los datos del usuario:", error);
+        // Si es Pro, se queda aquí.
+      } catch (err) {
+        console.error("Error obteniendo usuario:", err);
         await signOut(auth);
         window.location.href = "auth.html";
       }
