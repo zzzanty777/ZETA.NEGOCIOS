@@ -76,17 +76,26 @@
         return;
       }
 
-      const docRef = doc(db, "usuarios", user.uid);
-      const docSnap = await getDoc(docRef);
+      try {
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
 
-      if (!docSnap.exists()) {
-        window.location.href = "dashboard.html";
-        return;
-      }
+        if (!docSnap.exists()) {
+          await signOut(auth);
+          window.location.href = "auth.html";
+          return;
+        }
 
-      const tipo = docSnap.data()?.tipo || "Free";
-      if (tipo !== "Pro") {
-        window.location.href = "dashboard.html";
+        const tipo = docSnap.data()?.tipo || "Free";
+
+        if (tipo !== "Pro") {
+          window.location.href = "dashboard.html";
+        }
+
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+        await signOut(auth);
+        window.location.href = "auth.html";
       }
     });
 
