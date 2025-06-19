@@ -1,19 +1,72 @@
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>ZetaForge – Iniciar sesión</title>
+</head>
+<body>
+  <h1>Iniciar sesión / Registrarse</h1>
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-    authDomain: "zetaforgeapp.firebaseapp.com",
-    projectId: "zetaforgeapp",
-    storageBucket: "zetaforgeapp.firebasestorage.app",
-    messagingSenderId: "1015082894165",
-    appId: "1:1015082894165:web:4fa8f77a6021aa23cd65dc"
-  };
+  <input type="email" id="email" placeholder="Email"><br>
+  <input type="password" id="password" placeholder="Contraseña"><br>
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-</script>
+  <button onclick="login()">Iniciar sesión</button>
+  <button onclick="register()">Registrarse como Free</button>
+  <button onclick="registerPro()">Registrarse como Pro</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp",
+      storageBucket: "zetaforgeapp.firebasestorage.app",
+      messagingSenderId: "1015082894165",
+      appId: "1:1015082894165:web:4fa8f77a6021aa23cd65dc"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function register(plan = "Free") {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+
+      await setDoc(doc(db, "usuarios", uid), {
+        email: email,
+        tipo: plan
+      });
+
+      window.location.href = "dashboard.html";
+    }
+
+    function registerPro() {
+      register("Pro");
+    }
+
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+
+      const userDoc = await getDoc(doc(db, "usuarios", uid));
+      const tipo = userDoc.data().tipo;
+
+      if (tipo === "Pro") {
+        window.location.href = "pro.html";
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    }
+  </script>
+</body>
+</html>
