@@ -117,18 +117,25 @@
     const passInput = document.getElementById("password");
     const errorMsg = document.getElementById("errorMsg");
 
+    // Redirección controlada según tipo de cuenta
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const docSnap = await getDoc(doc(db, "usuarios", user.uid));
         const tipo = docSnap.data()?.tipo || "Free";
-        window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+        const currentPage = window.location.pathname;
+
+        if (tipo === "Pro" && !currentPage.includes("pro.html")) {
+          window.location.href = "pro.html";
+        } else if (tipo === "Free" && !currentPage.includes("dashboard.html")) {
+          window.location.href = "dashboard.html";
+        }
       }
     });
 
     window.register = async () => {
       const email = emailInput.value.trim();
       const password = passInput.value.trim();
-      if (!email || !password) return errorMsg.textContent = "Completá todos los campos.";
+      if (!email || !password) return showError("Completá todos los campos.");
 
       try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
@@ -142,7 +149,7 @@
     window.login = async () => {
       const email = emailInput.value.trim();
       const password = passInput.value.trim();
-      if (!email || !password) return errorMsg.textContent = "Completá todos los campos.";
+      if (!email || !password) return showError("Completá todos los campos.");
 
       try {
         const userCred = await signInWithEmailAndPassword(auth, email, password);
@@ -154,47 +161,43 @@
       }
     };
 
+    function showError(message, color = "#ff6b6b") {
+      errorMsg.style.color = color;
+      errorMsg.textContent = message;
+    }
+
     window.resetPassword = async () => {
       const email = emailInput.value.trim();
-      if (!email) {
-        errorMsg.textContent = "Ingresá tu correo para restablecer la contraseña.";
-        errorMsg.style.color = "#ff6b6b";
-        return;
-      }
+      if (!email) return showError("Ingresá tu correo para restablecer la contraseña.");
 
       try {
         await sendPasswordResetEmail(auth, email);
-        errorMsg.style.color = "#4caf50";
-        errorMsg.textContent = "Te enviamos un correo para restablecer la contraseña.";
+        showError("Te enviamos un correo para restablecer la contraseña.", "#4caf50");
       } catch (err) {
         if (err.code === "auth/user-not-found") {
-          errorMsg.style.color = "#ff6b6b";
-          errorMsg.textContent = "No existe una cuenta con ese correo.";
+          showError("No existe una cuenta con ese correo.");
         } else {
-          errorMsg.style.color = "#ff6b6b";
-          errorMsg.textContent = "Error al enviar el correo: " + err.message;
+          showError("Error al enviar el correo: " + err.message);
         }
       }
     };
 
     function handleError(error) {
-      errorMsg.style.color = "#ff6b6b";
       if (error.code === "auth/email-already-in-use") {
-        errorMsg.textContent = "Este correo ya está registrado.";
+        showError("Este correo ya está registrado.");
       } else if (error.code === "auth/invalid-email") {
-        errorMsg.textContent = "Correo inválido.";
+        showError("Correo inválido.");
       } else if (error.code === "auth/weak-password") {
-        errorMsg.textContent = "La contraseña debe tener al menos 6 caracteres.";
+        showError("La contraseña debe tener al menos 6 caracteres.");
       } else if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
-        errorMsg.textContent = "Correo o contraseña incorrectos.";
+        showError("Correo o contraseña incorrectos.");
       } else {
-        errorMsg.textContent = "Error inesperado: " + error.message;
+        showError("Error inesperado: " + error.message);
       }
     }
   </script>
 </body>
 </html>
-
 
 
 
