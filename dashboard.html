@@ -68,7 +68,13 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    console.log("UID ACTUAL:", getAuth().currentUser?.uid);
+   onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("✅ UID DETECTADO:", user.uid);
+  } else {
+    console.log("❌ No hay usuario logueado.");
+  }
+});
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
