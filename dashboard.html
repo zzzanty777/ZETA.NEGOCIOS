@@ -7,11 +7,56 @@
   <style>
     body {
       margin: 0;
-      padding: 40px;
+      padding: 100px 40px 40px; /* espacio arriba por la barra */
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #fff;
       text-align: center;
+    }
+
+    header {
+      width: 100%;
+      background: #121212;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: white;
+      font-weight: 600;
+    }
+
+    header nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    header nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    header nav a.button {
+      background-color: #6a0dad;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    header nav a.button:hover {
+      background-color: #8b2bff;
     }
 
     h1 {
@@ -24,7 +69,7 @@
       margin-bottom: 20px;
     }
 
-    a.button {
+    a.button-link {
       display: inline-block;
       padding: 12px 25px;
       background-color: #6a0dad;
@@ -35,7 +80,7 @@
       transition: all 0.3s ease;
     }
 
-    a.button:hover {
+    a.button-link:hover {
       background-color: #8b2bff;
     }
 
@@ -49,9 +94,21 @@
   </style>
 </head>
 <body>
+
+  <header>
+    <h1>ZetaForge</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="pro.html">ZetaPro</a>
+      <a href="auth.html" class="button">Empezar</a>
+    </nav>
+  </header>
+
   <h1>Bienvenido a ZetaForge Free</h1>
   <p>A continuación podés completar tu formulario de negocio gratuito:</p>
-  <a href="https://tally.so/r/m6GvdB" class="button" target="_blank">📋 Empezar ahora</a>
+  <a href="https://tally.so/r/m6GvdB" class="button-link" target="_blank">📋 Empezar ahora</a>
 
   <p class="logout" onclick="logout()">Cerrar sesión</p>
 
@@ -68,13 +125,6 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-   onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("✅ UID DETECTADO:", user.uid);
-  } else {
-    console.log("❌ No hay usuario logueado.");
-  }
-});
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
