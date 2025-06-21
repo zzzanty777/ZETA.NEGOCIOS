@@ -4,18 +4,68 @@
   <meta charset="UTF-8">
   <title>ZetaForge - Acceso</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
-      padding: 0;
+      padding-top: 80px;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+      box-sizing: border-box;
+      flex-direction: column;
     }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 999;
+      flex-wrap: wrap;
+    }
+
+    nav div:first-child {
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: #ffffff;
+    }
+
+    nav div:last-child {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:last-child {
+      background: #6a0dad;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a:last-child:hover {
+      background-color: #8b2bff;
+    }
+
     .container {
       background-color: rgba(255, 255, 255, 0.05);
       padding: 40px;
@@ -25,10 +75,12 @@
       width: 100%;
       text-align: center;
     }
+
     h1 {
       margin-bottom: 20px;
       font-size: 1.8rem;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -39,6 +91,7 @@
       color: white;
       font-size: 1rem;
     }
+
     button {
       width: 100%;
       padding: 12px;
@@ -51,14 +104,17 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+
     button:hover {
       background-color: #8b2bff;
     }
+
     .note {
       margin-top: 15px;
       font-size: 0.85rem;
       color: #ccc;
     }
+
     .error {
       margin-top: 10px;
       color: #ff6b6b;
@@ -67,6 +123,19 @@
   </style>
 </head>
 <body>
+
+  <!-- ✅ NAVBAR del index -->
+  <nav>
+    <div>ZetaForge</div>
+    <div>
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="pro.html" style="color: #6a0dad; font-weight: 600;">Zeta Pro</a>
+      <a href="auth.html">Empezar</a>
+    </div>
+  </nav>
+
   <div class="container">
     <h1>Acceso a ZetaForge</h1>
     <input type="email" id="email" placeholder="Correo electrónico" autocomplete="email" />
@@ -74,7 +143,7 @@
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
     <p style="margin-top: 15px;">
-      <a href="reset.html" style="color: #6a0dad; text-decoration: underline;">&#xbf;Olvidaste tu contraseña?</a>
+      <a href="reset.html" style="color: #6a0dad; text-decoration: underline;">¿Olvidaste tu contraseña?</a>
     </p>
     <p class="note">El registro te da acceso al plan Free. Podés pasar a Pro luego.</p>
     <p class="error" id="errorMsg"></p>
@@ -85,8 +154,7 @@
     import {
       getAuth,
       createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      sendPasswordResetEmail
+      signInWithEmailAndPassword
     } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
     import {
       getFirestore,
@@ -138,8 +206,7 @@
       }
     };
 
-    function showError(message, color = "#ff6b6b") {
-      errorMsg.style.color = color;
+    function showError(message) {
       errorMsg.textContent = message;
     }
 
