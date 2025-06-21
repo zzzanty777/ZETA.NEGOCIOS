@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZetaForge - Área Free</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -13,55 +13,6 @@
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #fff;
       text-align: center;
-    }
-
-    header {
-      width: 100%;
-      background: #121212;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 999;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-      flex-wrap: wrap;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      color: white;
-      font-weight: 600;
-    }
-
-    nav {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    nav a.button {
-      background-color: #6a0dad;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-    }
-
-    nav a.button:hover {
-      background-color: #8b2bff;
     }
 
     h1 {
@@ -96,30 +47,21 @@
       cursor: pointer;
       text-decoration: underline;
     }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav {
-        justify-content: flex-start;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>ZetaForge</h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="ejemplos.html">Ejemplos</a>
-      <a href="soporte.html">Soporte</a>
-      <a href="pro.html">ZetaPro</a>
-      <a href="auth.html" class="button">Empezar</a>
-    </nav>
-  </header>
+  <!-- ✅ Barra copiada tal cual del index.html -->
+  <nav style="background-color: #0d0d0d; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.1);">
+    <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+      <a href="index.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Inicio</a>
+      <a href="ejemplos.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Ejemplos</a>
+      <a href="soporte.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Soporte</a>
+      <a href="pro.html" style="color: #6a0dad; text-decoration: none; font-weight: 600;">Zeta Pro</a>
+      <a href="auth.html" style="background: #6a0dad; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Empezar</a>
+    </div>
+  </nav>
 
   <h1>Bienvenido a ZetaForge Free</h1>
   <p>A continuación podés completar tu formulario de negocio gratuito:</p>
@@ -187,6 +129,7 @@
   </script>
 </body>
 </html>
+
 
 
 
