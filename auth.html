@@ -40,10 +40,11 @@
       color: #ffffff;
     }
 
-    nav div:last-child {
+    nav .nav-links {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     nav a {
@@ -52,17 +53,23 @@
       font-weight: 500;
     }
 
-    nav a:last-child {
+    nav a.cta-btn {
       background: #6a0dad;
       color: white;
       padding: 8px 16px;
       border-radius: 8px;
-      text-decoration: none;
       font-weight: 600;
     }
 
-    nav a:last-child:hover {
+    nav a.cta-btn:hover {
       background-color: #8b2bff;
+    }
+
+    #profileIcon img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
     }
 
     .container {
@@ -123,17 +130,20 @@
 </head>
 <body>
 
-  <!-- ✅ NAVBAR del index -->
- <nav style="background-color: #0d0d0d; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); box-sizing: border-box;">
-  <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
-  <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: flex-end;">
-    <a href="index.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Inicio</a>
-    <a href="ejemplos.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Ejemplos</a>
-    <a href="soporte.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Soporte</a>
-    <a href="forgepro.html" style="color: #6a0dad; text-decoration: none; font-weight: 600;">Zeta Pro</a>
-    <a href="auth.html" style="background: #6a0dad; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Empezar</a>
-  </div>
-</nav>
+  <!-- ✅ Navbar con ícono de perfil -->
+  <nav>
+    <div>ZetaForge</div>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="forgepro.html" style="color:#6a0dad; font-weight:600;">Zeta Pro</a>
+      <a href="auth.html" class="cta-btn">Empezar</a>
+      <div id="profileIcon" title="Cargando...">
+        <img src="https://www.svgrepo.com/show/382106/account-avatar-profile-user-8.svg" alt="Perfil">
+      </div>
+    </div>
+  </nav>
 
   <div class="container">
     <h1>Acceso a ZetaForge</h1>
@@ -153,7 +163,8 @@
     import {
       getAuth,
       createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
+      signInWithEmailAndPassword,
+      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
     import {
       getFirestore,
@@ -222,6 +233,28 @@
         showError("Error inesperado: " + error.message);
       }
     }
+
+    // 🔁 Icono de perfil
+    const profileIcon = document.getElementById("profileIcon");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        profileIcon.title = "No has iniciado sesión. Haz clic para acceder.";
+        profileIcon.onclick = () => window.location.href = "auth.html";
+      } else {
+        try {
+          const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+          const tipo = docSnap.exists() ? docSnap.data().tipo : "Free";
+          profileIcon.title = "Acceder a tu cuenta";
+          profileIcon.onclick = () => {
+            window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+          };
+        } catch (error) {
+          profileIcon.title = "Error de sesión. Haz clic para volver a auth.";
+          profileIcon.onclick = () => window.location.href = "auth.html";
+        }
+      }
+    });
   </script>
 </body>
 </html>
