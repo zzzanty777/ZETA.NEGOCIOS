@@ -15,6 +15,54 @@
       text-align: center;
     }
 
+    nav {
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    nav div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a[href="pro.html"] {
+      color: #6a0dad;
+      font-weight: 600;
+    }
+
+    nav a.cta-btn {
+      background: #6a0dad;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a.cta-btn:hover {
+      background-color: #8b2bff;
+    }
+
+    #profileIcon img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
     h1 {
       font-size: 2rem;
       margin-bottom: 10px;
@@ -51,15 +99,18 @@
 </head>
 <body>
 
-  <!-- ✅ Barra copiada tal cual del index.html -->
-  <nav style="background-color: #0d0d0d; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.1);">
+  <!-- ✅ Navbar con ícono de perfil -->
+  <nav>
     <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <a href="index.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Inicio</a>
-      <a href="ejemplos.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Ejemplos</a>
-      <a href="soporte.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Soporte</a>
-      <a href="pro.html" style="color: #6a0dad; text-decoration: none; font-weight: 600;">Zeta Pro</a>
-      <a href="auth.html" style="background: #6a0dad; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Empezar</a>
+    <div>
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="pro.html">Zeta Pro</a>
+      <a href="auth.html" class="cta-btn">Empezar</a>
+      <div id="profileIcon" title="Cargando...">
+        <img src="https://www.svgrepo.com/show/382106/account-avatar-profile-user-8.svg" alt="Perfil">
+      </div>
     </div>
   </nav>
 
@@ -85,10 +136,7 @@
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
-      console.log("Verificando sesión...");
-
       if (!user) {
-        console.warn("Usuario no autenticado. Redirigiendo a auth.html");
         window.location.href = "auth.html";
         return;
       }
@@ -98,34 +146,48 @@
         const userSnap = await getDoc(userRef);
 
         if (!userSnap.exists()) {
-          console.error("El documento del usuario no existe.");
           await signOut(auth);
           window.location.href = "auth.html";
           return;
         }
 
         const tipo = userSnap.data().tipo || "Free";
-        console.log("Tipo de usuario:", tipo);
-
         if (tipo === "Pro") {
-          console.log("Redirigiendo a pro.html");
           window.location.href = "pro.html";
-        } else {
-          console.log("Permaneciendo en dashboard (Free)");
         }
 
       } catch (error) {
-        console.error("Error al obtener datos del usuario:", error);
         await signOut(auth);
         window.location.href = "auth.html";
       }
     });
 
     window.logout = async () => {
-      console.log("Cerrando sesión...");
       await signOut(auth);
       window.location.href = "auth.html";
     };
+
+    // Icono de perfil
+    const profileIcon = document.getElementById("profileIcon");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        profileIcon.title = "No has iniciado sesión. Haz clic para acceder.";
+        profileIcon.onclick = () => window.location.href = "auth.html";
+      } else {
+        try {
+          const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+          const tipo = docSnap.exists() ? docSnap.data().tipo : "Free";
+          profileIcon.title = "Acceder a tu cuenta";
+          profileIcon.onclick = () => {
+            window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+          };
+        } catch (error) {
+          profileIcon.title = "Error de sesión. Haz clic para volver a auth.";
+          profileIcon.onclick = () => window.location.href = "auth.html";
+        }
+      }
+    });
   </script>
 </body>
 </html>
