@@ -20,11 +20,13 @@
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      flex-wrap: wrap;
     }
     nav div {
       display: flex;
       gap: 20px;
       align-items: center;
+      flex-wrap: wrap;
     }
     nav a {
       color: #aaa;
@@ -45,12 +47,6 @@
     }
     nav a.cta-btn:hover {
       background-color: #8b2bff;
-    }
-    #profileIcon img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
     }
     header {
       padding: 80px 20px 60px;
@@ -96,21 +92,6 @@
       border-left: 5px solid #6a0dad;
       padding-left: 12px;
     }
-    .examples, .reasons, .testimonials {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 30px;
-      margin-bottom: 50px;
-      backdrop-filter: blur(8px);
-    }
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    li {
-      margin-bottom: 12px;
-    }
     footer {
       text-align: center;
       padding: 50px 20px;
@@ -118,17 +99,6 @@
       color: #888;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background-color: #0d0d0d;
-    }
-    a.cta.secondary {
-      display: inline-block;
-      margin-top: 20px;
-      background-color: transparent;
-      border: 2px solid #6a0dad;
-      color: #6a0dad;
-    }
-    a.cta.secondary:hover {
-      background-color: #6a0dad;
-      color: white;
     }
   </style>
 </head>
@@ -141,195 +111,31 @@
       <a href="soporte.html">Soporte</a>
       <a href="forgepro.html">Zeta Pro</a>
       <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
-     <!-- Fragmento HTML para el ícono de perfil con menú desplegable -->
-<div id="profile-container" style="position: relative;">
-  <img
-    src="https://www.svgrepo.com/show/512529/user-circle.svg"
-    alt="Perfil"
-    id="profile-icon"
-    style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
-    title="Inicia sesión para usar los servicios"
-  />
-
-  <div
-    id="profile-menu"
-    style="
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 40px;
-      background-color: #1a1a1a;
-      border: 1px solid #444;
-      border-radius: 8px;
-      min-width: 160px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      z-index: 1000;
-    "
-  >
-    <div id="auth-options" style="display: none; padding: 10px;">
-      <a href="auth.html" style="color: #6a0dad; text-decoration: none; display: block; padding: 8px 12px;">Iniciar sesión / Registrarse</a>
+      <div id="profile-container" style="position: relative;">
+        <img src="https://www.svgrepo.com/show/512529/user-circle.svg" alt="Perfil" id="profile-icon"
+          style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" title="Inicia sesión para usar los servicios"/>
+        <div id="profile-menu" style="display:none;position:absolute;right:0;top:40px;background-color:#1a1a1a;border:1px solid #444;border-radius:8px;min-width:160px;box-shadow:0 4px 8px rgba(0,0,0,0.3);z-index:1000;">
+          <div id="auth-options" style="display:none;padding:10px;">
+            <a href="auth.html" style="color:#6a0dad;text-decoration:none;display:block;padding:8px 12px;">Iniciar sesión / Registrarse</a>
+          </div>
+          <div id="user-options" style="display:none;padding:10px;">
+            <a href="cuenta.html" style="color:#aaa;text-decoration:none;display:block;padding:8px 12px;">Cuenta</a>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div id="user-options" style="display: none; padding: 10px;">
-      <a href="cuenta.html" style="color: #aaa; text-decoration: none; display: block; padding: 8px 12px;">Cuenta</a>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-    authDomain: "zetaforgeapp.firebaseapp.com",
-    projectId: "zetaforgeapp"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const profileIcon = document.getElementById("profile-icon");
-  const profileMenu = document.getElementById("profile-menu");
-  const authOptions = document.getElementById("auth-options");
-  const userOptions = document.getElementById("user-options");
-
-  // Mostrar/ocultar el menú al hacer clic en el icono
-  profileIcon.addEventListener("click", () => {
-    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-  });
-
-  // Cerrar si se hace clic fuera
-  window.addEventListener("click", (e) => {
-    if (!profileIcon.contains(e.target) && !profileMenu.contains(e.target)) {
-      profileMenu.style.display = "none";
-    }
-  });
-
-  // Detectar si hay sesión
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      authOptions.style.display = "none";
-      userOptions.style.display = "block";
-      profileIcon.title = "Ver tu cuenta";
-    } else {
-      authOptions.style.display = "block";
-      userOptions.style.display = "none";
-      profileIcon.title = "Inicia sesión para usar los servicios";
-    }
-  });
-</script>
-
+  </nav>
   <header>
     <h1>ZetaForge</h1>
     <p class="subtitle">Crea tu negocio en segundos con inteligencia artificial</p>
     <a href="#" class="cta" id="startBtn">Empezar ahora</a>
   </header>
-
   <section>
     <h2>¿Qué es ZetaForge?</h2>
-    <p>ZetaForge es la herramienta de ZETA para crear negocios personalizados con IA. Completá un formulario y recibí tu marca lista: nombre, eslogan, modelo de ingresos, público y más.</p>
+    <p>ZetaForge es la herramienta de ZETA para crear negocios personalizados con IA.</p>
   </section>
-
-  <section class="examples">
-    <h2>¿Cómo funciona?</h2>
-    <ul>
-      <li>1. Completá el formulario (2 minutos)</li>
-      <li>2. IA analiza tu idea y perfil</li>
-      <li>3. Recibís todo por email o desde la web</li>
-    </ul>
-  </section>
-
-  <section class="examples">
-    <h2>Ejemplos de negocios</h2>
-    <ul>
-      <li><strong>UrbanNova:</strong> "La ciudad se viste contigo" (Moda urbana)</li>
-      <li><strong>FoodAI:</strong> "Comé bien, sin pensar" (Comida saludable)</li>
-      <li><strong>HustleGo:</strong> "Negocios en movimiento" (Consultoría digital)</li>
-    </ul>
-  </section>
-
-  <section class="testimonials">
-    <h2>Testimonios</h2>
-    <p>"No sabía por dónde empezar mi idea. ZetaForge me armó todo en minutos." — Camila, España</p>
-    <p>"El branding que me dio parece hecho por una agencia. Brutal." — Marcos, México</p>
-  </section>
-
-  <section class="reasons">
-    <h2>¿Por qué usar ZetaForge?</h2>
-    <ul>
-      <li>✔ 100% gratis</li>
-      <li>✔ Branding profesional en minutos</li>
-      <li>✔ No necesitás saber programar</li>
-      <li>✔ Perfecto para creadores y emprendedores</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>¡Listo para empezar?</h2>
-    <a href="https://tally.so/r/m6GvdB" class="cta">Crear mi negocio ahora</a>
-    <a href="#" class="cta secondary">Ver ejemplos</a>
-  </section>
-
   <footer>
-    ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales
-    <div style="margin-top: 20px; text-align: center; font-size: 0.8rem;">
-      <a href="legal.html" style="color: #6a0dad; text-decoration: none;">Términos y condiciones</a>
-    </div>
+    ZETA / ZetaForge © 2025
   </footer>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-      authDomain: "zetaforgeapp.firebaseapp.com",
-      projectId: "zetaforgeapp"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    document.getElementById("startBtn").addEventListener("click", () => {
-      onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-          window.location.href = "auth.html";
-        } else {
-          const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-          const tipo = userDoc.data()?.tipo || "Free";
-          window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
-        }
-      });
-    });
-
-    const profileIcon = document.getElementById("profileIcon");
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        profileIcon.title = "No has iniciado sesión. Haz clic para acceder.";
-        profileIcon.onclick = () => {
-          window.location.href = "auth.html";
-        };
-      } else {
-        try {
-          const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-          const tipo = docSnap.exists() ? docSnap.data().tipo : "Free";
-          profileIcon.title = "Acceder a tu cuenta";
-          profileIcon.onclick = () => {
-            window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
-          };
-        } catch (error) {
-          profileIcon.title = "Error de sesión. Haz clic para volver a auth.";
-          profileIcon.onclick = () => {
-            window.location.href = "auth.html";
-          };
-        }
-      }
-    });
-  </script>
 </body>
 </html>
-
