@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZetaForge - Crea tu negocio con IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #f4f4f4;
+      line-height: 1.6;
+    }
+    nav {
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      flex-wrap: wrap;
+    }
+    nav div {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a[href="forgepro.html"] {
+      color: #6a0dad;
+      font-weight: 600;
+    }
+    nav a.cta-btn {
+      background: #6a0dad;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a.cta-btn:hover {
+      background-color: #8b2bff;
+    }
+    header {
+      padding: 80px 20px 60px;
+      text-align: center;
+      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      font-size: 1.2rem;
+      color: #c0c0c0;
+      margin-bottom: 30px;
+    }
+    .cta {
+      background-color: #6a0dad;
+      color: white;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 14px rgba(106, 13, 173, 0.4);
+    }
+    .cta:hover {
+      background-color: #8b2bff;
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(139, 43, 255, 0.4);
+    }
+    section {
+      padding: 70px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      border-left: 5px solid #6a0dad;
+      padding-left: 12px;
+    }
+    footer {
+      text-align: center;
+      padding: 50px 20px;
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: #0d0d0d;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
+    <div>
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="forgepro.html">Zeta Pro</a>
+      <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
+      <div id="profile-container" style="position: relative;">
+        <img src="https://www.svgrepo.com/show/512529/user-circle.svg" alt="Perfil" id="profile-icon"
+          style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" title="Inicia sesión para usar los servicios"/>
+        <div id="profile-menu" style="display:none;position:absolute;right:0;top:40px;background-color:#1a1a1a;border:1px solid #444;border-radius:8px;min-width:160px;box-shadow:0 4px 8px rgba(0,0,0,0.3);z-index:1000;">
+          <div id="auth-options" style="display:none;padding:10px;">
+            <a href="auth.html" style="color:#6a0dad;text-decoration:none;display:block;padding:8px 12px;">Iniciar sesión / Registrarse</a>
+          </div>
+          <div id="user-options" style="display:none;padding:10px;">
+            <a href="cuenta.html" style="color:#aaa;text-decoration:none;display:block;padding:8px 12px;">Cuenta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <header>
+    <h1>ZetaForge</h1>
+    <p class="subtitle">Crea tu negocio en segundos con inteligencia artificial</p>
+    <a href="#" class="cta" id="startBtn">Empezar ahora</a>
+  </header>
+  <section>
+    <h2>¿Qué es ZetaForge?</h2>
+    <p>ZetaForge es la herramienta de ZETA para crear negocios personalizados con IA.</p>
+  </section>
+  <footer>
+    ZETA / ZetaForge © 2025
+  </footer>
+</body>
+</html>
