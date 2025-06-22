@@ -13,6 +13,45 @@
       color: #f4f4f4;
       line-height: 1.6;
     }
+    nav {
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    nav div {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a[href="forgepro.html"] {
+      color: #6a0dad;
+      font-weight: 600;
+    }
+    nav a.cta-btn {
+      background: #6a0dad;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a.cta-btn:hover {
+      background-color: #8b2bff;
+    }
+    #profileIcon img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
     header {
       padding: 80px 20px 60px;
       text-align: center;
@@ -94,16 +133,20 @@
   </style>
 </head>
 <body>
-  <nav style="background-color: #0d0d0d; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
-  <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
-  <div style="display: flex; gap: 20px;">
-    <a href="index.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Inicio</a>
-    <a href="ejemplos.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Ejemplos</a>
-    <a href="soporte.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Soporte</a>
-    <a href="forgepro.html" style="color: #6a0dad; text-decoration: none; font-weight: 600;">Zeta Pro</a>
-    <a href="https://tally.so/r/m6GvdB" style="background: #6a0dad; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Empezar</a>
-  </div>
-</nav>
+  <nav>
+    <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
+    <div>
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="forgepro.html">Zeta Pro</a>
+      <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
+      <div id="profileIcon" title="Cargando...">
+        <img src="https://www.svgrepo.com/show/382106/account-avatar-profile-user-8.svg" alt="Perfil">
+      </div>
+    </div>
+  </nav>
+
   <header>
     <h1>ZetaForge</h1>
     <p class="subtitle">Crea tu negocio en segundos con inteligencia artificial</p>
@@ -154,45 +197,66 @@
     <a href="https://tally.so/r/m6GvdB" class="cta">Crear mi negocio ahora</a>
     <a href="#" class="cta secondary">Ver ejemplos</a>
   </section>
+
   <footer>
-  ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales
-  <div style="margin-top: 20px; text-align: center; font-size: 0.8rem;">
-    <a href="legal.html" style="color: #6a0dad; text-decoration: none;">Términos y condiciones</a>
-  </div>
-</footer>
-</body>
+    ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales
+    <div style="margin-top: 20px; text-align: center; font-size: 0.8rem;">
+      <a href="legal.html" style="color: #6a0dad; text-decoration: none;">Términos y condiciones</a>
+    </div>
+  </footer>
+
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-    authDomain: "zetaforgeapp.firebaseapp.com",
-    projectId: "zetaforgeapp"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  document.getElementById("startBtn").addEventListener("click", () => {
+    document.getElementById("startBtn").addEventListener("click", () => {
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          window.location.href = "auth.html";
+        } else {
+          const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+          const tipo = userDoc.data()?.tipo || "Free";
+          window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+        }
+      });
+    });
+
+    const profileIcon = document.getElementById("profileIcon");
+
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        window.location.href = "auth.html";
+        profileIcon.title = "No has iniciado sesión. Haz clic para acceder.";
+        profileIcon.onclick = () => {
+          window.location.href = "auth.html";
+        };
       } else {
-        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-        const tipo = userDoc.data()?.tipo || "Free";
-
-        if (tipo === "Pro") {
-          window.location.href = "pro.html";
-        } else {
-          window.location.href = "dashboard.html";
+        try {
+          const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+          const tipo = docSnap.exists() ? docSnap.data().tipo : "Free";
+          profileIcon.title = "Acceder a tu cuenta";
+          profileIcon.onclick = () => {
+            window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+          };
+        } catch (error) {
+          profileIcon.title = "Error de sesión. Haz clic para volver a auth.";
+          profileIcon.onclick = () => {
+            window.location.href = "auth.html";
+          };
         }
       }
     });
-  });
-</script>
-
+  </script>
+</body>
 </html>
 
