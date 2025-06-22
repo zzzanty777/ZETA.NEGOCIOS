@@ -139,11 +139,85 @@
       <a href="soporte.html">Soporte</a>
       <a href="forgepro.html" style="color:#6a0dad; font-weight:600;">Zeta Pro</a>
       <a href="auth.html" class="cta-btn">Empezar</a>
-      <div id="profileIcon" title="Cargando...">
-        <img src="https://www.svgrepo.com/show/382106/account-avatar-profile-user-8.svg" alt="Perfil">
-      </div>
+      <!-- Fragmento HTML para el ícono de perfil con menú desplegable -->
+<div id="profile-container" style="position: relative;">
+  <img
+    src="https://www.svgrepo.com/show/512529/user-circle.svg"
+    alt="Perfil"
+    id="profile-icon"
+    style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
+    title="Inicia sesión para usar los servicios"
+  />
+
+  <div
+    id="profile-menu"
+    style="
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background-color: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+    "
+  >
+    <div id="auth-options" style="display: none; padding: 10px;">
+      <a href="auth.html" style="color: #6a0dad; text-decoration: none; display: block; padding: 8px 12px;">Iniciar sesión / Registrarse</a>
     </div>
-  </nav>
+
+    <div id="user-options" style="display: none; padding: 10px;">
+      <a href="cuenta.html" style="color: #aaa; text-decoration: none; display: block; padding: 8px 12px;">Cuenta</a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+    authDomain: "zetaforgeapp.firebaseapp.com",
+    projectId: "zetaforgeapp"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const profileIcon = document.getElementById("profile-icon");
+  const profileMenu = document.getElementById("profile-menu");
+  const authOptions = document.getElementById("auth-options");
+  const userOptions = document.getElementById("user-options");
+
+  // Mostrar/ocultar el menú al hacer clic en el icono
+  profileIcon.addEventListener("click", () => {
+    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+  });
+
+  // Cerrar si se hace clic fuera
+  window.addEventListener("click", (e) => {
+    if (!profileIcon.contains(e.target) && !profileMenu.contains(e.target)) {
+      profileMenu.style.display = "none";
+    }
+  });
+
+  // Detectar si hay sesión
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      authOptions.style.display = "none";
+      userOptions.style.display = "block";
+      profileIcon.title = "Ver tu cuenta";
+    } else {
+      authOptions.style.display = "block";
+      userOptions.style.display = "none";
+      profileIcon.title = "Inicia sesión para usar los servicios";
+    }
+  });
+</script>
+
 
   <div class="container">
     <h1>Acceso a ZetaForge</h1>
