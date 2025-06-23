@@ -100,6 +100,48 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background-color: #0d0d0d;
     }
+    nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #0d0d0d;
+}
+.nav-left, .nav-center, .nav-right {
+  display: flex;
+  align-items: center;
+}
+.nav-left a, .nav-right a {
+  margin: 0 10px;
+}
+.nav-center {
+  flex: 1;
+  justify-content: center;
+}
+.logo {
+  height: 40px;
+}
+#profile-container {
+  position: relative;
+}
+#profile-menu {
+  display: none;
+  position: absolute;
+  right: 0; top: 40px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 8px;
+}
+#profile-menu a {
+  display: block;
+  padding: 8px 12px;
+  color: #ccc;
+  text-decoration: none;
+}
+#profile-menu a:hover {
+  background: #333;
+}
+
   </style>
 </head>
 <body>
@@ -113,7 +155,7 @@
 
   <!-- LOGO CENTRADO -->
   <div style="text-align: center;">
-    <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/logo.png" alt="ZetaForge" style="height: 40px;">
+    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" style="height: 40px;">
   </div>
 
   <div style="display: flex; align-items: center; gap: 16px;">
@@ -154,46 +196,6 @@
   <footer>
     ZETA / ZetaForge © 2025
   </footer>
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-  authDomain: "zetaforgeapp.firebaseapp.com",
-  projectId: "zetaforgeapp"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-const profileIcon = document.getElementById("profile-icon");
-const profileMenu = document.getElementById("profile-menu");
-const authOptions = document.getElementById("auth-options");
-const userOptions = document.getElementById("user-options");
-
-// Menú desplegable
-profileIcon.addEventListener("click", () => {
-  profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-});
-
-// Ocultar menú si haces clic fuera
-window.addEventListener("click", (e) => {
-  if (!profileIcon.contains(e.target) && !profileMenu.contains(e.target)) {
-    profileMenu.style.display = "none";
-  }
-});
-
-// Detectar sesión
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    authOptions.style.display = "none";
-    userOptions.style.display = "block";
-    profileIcon.title = "Ver tu cuenta";
-  } else {
-    authOptions.style.display = "block";
-    userOptions.style.display = "none";
-    profileIcon.title = "Inicia sesión para usar los servicios";
-  }
-});
+Parte 3: Inserta este bloque justo antes del cierre del </body>, después de importar Firebase:
 </body>
 </html>
