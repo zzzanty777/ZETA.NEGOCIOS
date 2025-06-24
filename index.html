@@ -14,30 +14,29 @@
       line-height: 1.6;
     }
     nav {
-      background-color: #0d0d0d;
-      padding: 20px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
+      padding: 20px;
+      background-color: #0d0d0d;
       border-bottom: 1px solid rgba(255,255,255,0.1);
-      flex-wrap: wrap;
+      position: relative;
     }
-    nav div {
+    .nav-left, .nav-right {
       display: flex;
-      gap: 20px;
       align-items: center;
-      flex-wrap: wrap;
+      gap: 20px;
     }
-    nav a {
+    .nav-left a, .nav-right a {
       color: #aaa;
       text-decoration: none;
       font-weight: 500;
     }
-    nav a[href="forgepro.html"] {
+    .nav-left a[href="forgepro.html"] {
       color: #6a0dad;
       font-weight: 600;
     }
-    nav a.cta-btn {
+    .cta-btn {
       background: #6a0dad;
       color: white;
       padding: 8px 16px;
@@ -45,8 +44,40 @@
       text-decoration: none;
       font-weight: 600;
     }
-    nav a.cta-btn:hover {
+    .cta-btn:hover {
       background-color: #8b2bff;
+    }
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .logo {
+      height: 40px;
+    }
+    #profile-container {
+      position: relative;
+    }
+    #profile-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    #profile-menu a {
+      display: block;
+      padding: 8px 12px;
+      color: #ccc;
+      text-decoration: none;
+    }
+    #profile-menu a:hover {
+      background: #333;
     }
     header {
       padding: 80px 20px 60px;
@@ -100,101 +131,111 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background-color: #0d0d0d;
     }
-    nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #0d0d0d;
-}
-.nav-left, .nav-center, .nav-right {
-  display: flex;
-  align-items: center;
-}
-.nav-left a, .nav-right a {
-  margin: 0 10px;
-}
-.nav-center {
-  flex: 1;
-  justify-content: center;
-}
-.logo {
-  height: 40px;
-}
-#profile-container {
-  position: relative;
-}
-#profile-menu {
-  display: none;
-  position: absolute;
-  right: 0; top: 40px;
-  background: #1a1a1a;
-  border: 1px solid #444;
-  border-radius: 8px;
-}
-#profile-menu a {
-  display: block;
-  padding: 8px 12px;
-  color: #ccc;
-  text-decoration: none;
-}
-#profile-menu a:hover {
-  background: #333;
-}
-
   </style>
 </head>
 <body>
-  <nav style="background-color: #0d0d0d; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-  <div style="display: flex; gap: 20px; align-items: center;">
-    <a href="index.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Inicio</a>
-    <a href="ejemplos.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Ejemplos</a>
-    <a href="soporte.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Soporte</a>
-    <a href="forgepro.html" style="color: #6a0dad; font-weight: 600; text-decoration: none;">Zeta Pro</a>
-  </div>
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="forgepro.html">Zeta Pro</a>
+    </div>
 
-  <!-- LOGO CENTRADO -->
-  <div style="text-align: center;">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" style="height: 40px;">
-  </div>
+    <div class="nav-center">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" class="logo">
+    </div>
 
-  <div style="display: flex; align-items: center; gap: 16px;">
-    <a href="#" id="startBtn" class="cta-btn" style="background-color: #6a0dad; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; text-decoration: none;">Empezar</a>
-
-    <!-- ÍCONO DE PERFIL CON MENÚ -->
-    <div id="profile-container" style="position: relative;">
-      <img
-        src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png"
-        alt="Perfil"
-        id="profile-icon"
-        style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
-        title="Inicia sesión para usar los servicios"
-      />
-      <div
-        id="profile-menu"
-        style="display: none; position: absolute; right: 0; top: 40px; background-color: #1a1a1a; border: 1px solid #444; border-radius: 8px; min-width: 160px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); z-index: 1000;"
-      >
-        <div id="auth-options" style="display: none; padding: 10px;">
-          <a href="auth.html" style="color: #6a0dad; text-decoration: none; display: block; padding: 8px 12px;">Iniciar sesión / Registrarse</a>
-        </div>
-        <div id="user-options" style="display: none; padding: 10px;">
-          <a href="cuenta.html" style="color: #aaa; text-decoration: none; display: block; padding: 8px 12px;">Cuenta</a>
+    <div class="nav-right">
+      <a href="#" id="startBtn" class="cta-btn">Empezar</a>
+      <div id="profile-container">
+        <img
+          src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png"
+          alt="Perfil"
+          id="profile-icon"
+          style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
+        />
+        <div id="profile-menu">
+          <div id="auth-options">
+            <a href="auth.html">Iniciar sesión / Registrarse</a>
+          </div>
+          <div id="user-options">
+            <a href="cuenta.html">Cuenta</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+
   <header>
     <h1>ZetaForge</h1>
     <p class="subtitle">Crea tu negocio en segundos con inteligencia artificial</p>
-    <a href="#" class="cta" id="startBtn">Empezar ahora</a>
+    <a href="#" class="cta" id="startBtn2">Empezar ahora</a>
   </header>
+
   <section>
     <h2>¿Qué es ZetaForge?</h2>
     <p>ZetaForge es la herramienta de ZETA para crear negocios personalizados con IA.</p>
   </section>
+
   <footer>
     ZETA / ZetaForge © 2025
   </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const profileIcon = document.getElementById("profile-icon");
+    const profileMenu = document.getElementById("profile-menu");
+    const authOptions = document.getElementById("auth-options");
+    const userOptions = document.getElementById("user-options");
+
+    profileIcon.addEventListener("click", () => {
+      profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (!document.getElementById("profile-container").contains(e.target)) {
+        profileMenu.style.display = "none";
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authOptions.style.display = "none";
+        userOptions.style.display = "block";
+        profileIcon.title = "Ver tu cuenta";
+      } else {
+        authOptions.style.display = "block";
+        userOptions.style.display = "none";
+        profileIcon.title = "Inicia sesión para usar los servicios";
+      }
+    });
+
+    document.getElementById("startBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      onAuthStateChanged(auth, (user) => {
+        window.location.href = user ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html") : "auth.html";
+      });
+    });
+
+    document.getElementById("startBtn2").addEventListener("click", (e) => {
+      e.preventDefault();
+      onAuthStateChanged(auth, (user) => {
+        window.location.href = user ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html") : "auth.html";
+      });
+    });
+  </script>
 </body>
 </html>
+
