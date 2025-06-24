@@ -170,17 +170,54 @@
   <header>
     <h1>ZetaForge</h1>
     <p class="subtitle">Crea tu negocio en segundos con inteligencia artificial</p>
-    <a href="#" class="cta" id="startBtn2">Empezar ahora</a>
+    <a href="#quees" class="cta">Empezar ahora</a>
   </header>
+  <section id="quees">
+    <h2>¿Qué es ZetaForge?</h2>
+    <p>ZetaForge es una herramienta impulsada por inteligencia artificial que permite crear negocios desde cero de manera automática, rápida y efectiva. Diseñada para emprendedores, freelancers, creadores de contenido o cualquier persona que quiera lanzar una idea sin complicaciones técnicas.</p>
+    <p>Con solo rellenar un formulario de menos de 2 minutos, recibirás:</p>
+    <ul>
+      <li>✓ Nombre de marca único</li>
+      <li>✓ Eslogan con impacto</li>
+      <li>✓ Modelo de ingresos sugerido</li>
+      <li>✓ Público objetivo definido</li>
+      <li>✓ Pitch para inversores</li>
+      <li>✓ Dominio disponible y logo</li>
+    </ul>
+  </section>
 
   <section>
-    <h2>¿Qué es ZetaForge?</h2>
-    <p>ZetaForge es la herramienta de ZETA para crear negocios personalizados con IA.</p>
+    <h2>¿Cómo funciona?</h2>
+    <p>ZetaForge utiliza IA entrenada con cientos de modelos de negocio reales para ofrecer resultados rápidos y útiles. Una vez registrado, accedes al formulario donde cuentas tu idea y preferencias. En segundos, recibes todo personalizado a tu perfil y nicho.</p>
+  </section>
+
+  <section>
+    <h2>¿Por qué existe ZetaForge?</h2>
+    <p>Muchos tienen ideas increíbles pero se pierden en los primeros pasos. ZetaForge elimina la barrera técnica y mental de comenzar, dándote impulso, claridad y dirección.</p>
+    <p>Nuestra misión es democratizar el emprendimiento con herramientas simples, potentes y gratuitas, para que cualquiera pueda empezar su proyecto sin excusas.</p>
   </section>
 
   <footer>
     ZETA / ZetaForge © 2025
   </footer>
+
+  <script>
+    // Efecto de fade-in al hacer scroll
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
