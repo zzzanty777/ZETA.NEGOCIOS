@@ -202,56 +202,7 @@
   </footer>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-    authDomain: "zetaforgeapp.firebaseapp.com",
-    projectId: "zetaforgeapp"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // Registrar nombre de usuario
-  async function guardarNombreUsuario(uid, username) {
-    const userRef = doc(db, "users", uid);
-    await setDoc(userRef, { username }, { merge: true });
-  }
-
-  <script>
-  // Efecto de fade-in al hacer scroll
-  const sections = document.querySelectorAll('section');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  sections.forEach(section => {
-    observer.observe(section);
-  });
-</script>
-
-<style>
-  section {
-    opacity: 0;
-    transform: translateY(60px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
@@ -280,11 +231,19 @@
   onAuthStateChanged(auth, (user) => {
     if (user) {
       authOptions.style.display = "none";
-      userOptions.style.display = "block";
+      userOptions.innerHTML = `
+        <a href="cuenta.html">Perfil</a>
+        <a href="#" id="logout">Cerrar sesión</a>
+      `;
       profileIcon.title = "Ver tu cuenta";
+      const logoutBtn = document.getElementById("logout");
+      logoutBtn.addEventListener("click", async () => {
+        await signOut(auth);
+        location.reload();
+      });
     } else {
       authOptions.style.display = "block";
-      userOptions.style.display = "none";
+      userOptions.innerHTML = "";
       profileIcon.title = "Inicia sesión para usar los servicios";
     }
   });
