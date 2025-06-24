@@ -230,13 +230,17 @@
 
     const profileIcon = document.getElementById("profileIcon");
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        profileIcon.title = "No has iniciado sesión. Haz clic para acceder.";
-        profileIcon.onclick = () => window.location.href = "auth.html";
-        window.location.href = "auth.html";
-        return;
-      }
+    onAuthStateChanged(auth, async user => {
+  if (!user) return window.location.href = "auth.html";
+  const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+  const tipo = docSnap.data()?.tipo || "Free";
+  if (window.location.pathname.endsWith("pro.html") && tipo !== "Pro") {
+     return window.location.href = "dashboard.html";
+  }
+  if (window.location.pathname.endsWith("dashboard.html") && tipo === "Pro") {
+     return window.location.href = "pro.html";
+  }
+});
 
       try {
         const docRef = doc(db, "usuarios", user.uid);
