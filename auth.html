@@ -130,7 +130,6 @@
 </head>
 <body>
 
-  <!-- ✅ Navbar con ícono de perfil -->
   <nav>
     <div>ZetaForge</div>
     <div class="nav-links">
@@ -139,88 +138,12 @@
       <a href="soporte.html">Soporte</a>
       <a href="forgepro.html" style="color:#6a0dad; font-weight:600;">Zeta Pro</a>
       <a href="auth.html" class="cta-btn">Empezar</a>
-      <!-- Fragmento HTML para el ícono de perfil con menú desplegable -->
-<div id="profile-container" style="position: relative;">
-  <img
-    src="https://www.svgrepo.com/show/512529/user-circle.svg"
-    alt="Perfil"
-    id="profile-icon"
-    style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
-    title="Inicia sesión para usar los servicios"
-  />
-
-  <div
-    id="profile-menu"
-    style="
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 40px;
-      background-color: #1a1a1a;
-      border: 1px solid #444;
-      border-radius: 8px;
-      min-width: 160px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      z-index: 1000;
-    "
-  >
-    <div id="auth-options" style="display: none; padding: 10px;">
-      <a href="auth.html" style="color: #6a0dad; text-decoration: none; display: block; padding: 8px 12px;">Iniciar sesión / Registrarse</a>
     </div>
-
-    <div id="user-options" style="display: none; padding: 10px;">
-      <a href="cuenta.html" style="color: #aaa; text-decoration: none; display: block; padding: 8px 12px;">Cuenta</a>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-    authDomain: "zetaforgeapp.firebaseapp.com",
-    projectId: "zetaforgeapp"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const profileIcon = document.getElementById("profile-icon");
-  const profileMenu = document.getElementById("profile-menu");
-  const authOptions = document.getElementById("auth-options");
-  const userOptions = document.getElementById("user-options");
-
-  // Mostrar/ocultar el menú al hacer clic en el icono
-  profileIcon.addEventListener("click", () => {
-    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-  });
-
-  // Cerrar si se hace clic fuera
-  window.addEventListener("click", (e) => {
-    if (!profileIcon.contains(e.target) && !profileMenu.contains(e.target)) {
-      profileMenu.style.display = "none";
-    }
-  });
-
-  // Detectar si hay sesión
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      authOptions.style.display = "none";
-      userOptions.style.display = "block";
-      profileIcon.title = "Ver tu cuenta";
-    } else {
-      authOptions.style.display = "block";
-      userOptions.style.display = "none";
-      profileIcon.title = "Inicia sesión para usar los servicios";
-    }
-  });
-</script>
-
+  </nav>
 
   <div class="container">
     <h1>Acceso a ZetaForge</h1>
+    <input type="text" id="username" placeholder="Nombre de usuario (solo al registrarse)" />
     <input type="email" id="email" placeholder="Correo electrónico" autocomplete="email" />
     <input type="password" id="password" placeholder="Contraseña" autocomplete="current-password" />
     <button onclick="login()">Iniciar sesión</button>
@@ -259,16 +182,22 @@
 
     const emailInput = document.getElementById("email");
     const passInput = document.getElementById("password");
+    const userInput = document.getElementById("username");
     const errorMsg = document.getElementById("errorMsg");
 
     window.register = async () => {
       const email = emailInput.value.trim();
       const password = passInput.value.trim();
-      if (!email || !password) return showError("Completá todos los campos.");
+      const username = userInput.value.trim();
+      if (!email || !password || !username) return showError("Completá todos los campos.");
 
       try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "usuarios", userCred.user.uid), { email, tipo: "Free" });
+        await setDoc(doc(db, "usuarios", userCred.user.uid), {
+          email,
+          username,
+          tipo: "Free"
+        });
         window.location.href = "dashboard.html";
       } catch (err) {
         handleError(err);
@@ -307,31 +236,10 @@
         showError("Error inesperado: " + error.message);
       }
     }
-
-    // 🔁 Icono de perfil
-    const profileIcon = document.getElementById("profileIcon");
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        profileIcon.title = "No has iniciado sesión. Haz clic para acceder.";
-        profileIcon.onclick = () => window.location.href = "auth.html";
-      } else {
-        try {
-          const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-          const tipo = docSnap.exists() ? docSnap.data().tipo : "Free";
-          profileIcon.title = "Acceder a tu cuenta";
-          profileIcon.onclick = () => {
-            window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
-          };
-        } catch (error) {
-          profileIcon.title = "Error de sesión. Haz clic para volver a auth.";
-          profileIcon.onclick = () => window.location.href = "auth.html";
-        }
-      }
-    });
   </script>
 </body>
 </html>
+
 
 
 
