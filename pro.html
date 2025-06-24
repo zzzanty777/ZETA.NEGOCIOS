@@ -156,7 +156,16 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
@@ -166,38 +175,48 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  const profileIcon = document.getElementById("profile-icon");
-  const profileMenu = document.getElementById("profile-menu");
-  const authOptions = document.getElementById("auth-options");
-  const userOptions = document.getElementById("user-options");
+  const profileIcon = document.getElementById("profileIcon");
 
-  // Mostrar/ocultar el menú al hacer clic en el icono
-  profileIcon.addEventListener("click", () => {
-    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-  });
+  onAuthStateChanged(auth, async user => {
+    if (!user) {
+      return window.location.href = "auth.html";
+    }
 
-  // Cerrar si se hace clic fuera
-  window.addEventListener("click", (e) => {
-    if (!profileIcon.contains(e.target) && !profileMenu.contains(e.target)) {
-      profileMenu.style.display = "none";
+    try {
+      const docRef = doc(db, "usuarios", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        await signOut(auth);
+        return window.location.href = "auth.html";
+      }
+
+      const tipo = docSnap.data().tipo || "Free";
+
+      // Si es Free, no puede estar en Pro
+      if (tipo !== "Pro") {
+        return window.location.href = "dashboard.html";
+      }
+
+      // Usuario válido Pro
+      profileIcon.title = "Acceder a tu cuenta";
+      profileIcon.onclick = () => {
+        window.location.href = "pro.html";
+      };
+
+    } catch (error) {
+      await signOut(auth);
+      return window.location.href = "auth.html";
     }
   });
 
-  // Detectar si hay sesión
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      authOptions.style.display = "none";
-      userOptions.style.display = "block";
-      profileIcon.title = "Ver tu cuenta";
-    } else {
-      authOptions.style.display = "block";
-      userOptions.style.display = "none";
-      profileIcon.title = "Inicia sesión para usar los servicios";
-    }
-  });
+  window.logout = async () => {
+    await signOut(auth);
+    window.location.href = "auth.html";
+  };
 </script>
-
 
   <h1 class="page-title">Bienvenido a ZetaForge Pro</h1>
   <p>Aquí vas a encontrar tu formulario exclusivo Pro para crear negocios avanzados.</p>
@@ -229,18 +248,6 @@
     const db = getFirestore(app);
 
     const profileIcon = document.getElementById("profileIcon");
-
-    onAuthStateChanged(auth, async user => {
-  if (!user) return window.location.href = "auth.html";
-  const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-  const tipo = docSnap.data()?.tipo || "Free";
-  if (window.location.pathname.endsWith("pro.html") && tipo !== "Pro") {
-     return window.location.href = "dashboard.html";
-  }
-  if (window.location.pathname.endsWith("dashboard.html") && tipo === "Pro") {
-     return window.location.href = "pro.html";
-  }
-});
 
       try {
         const docRef = doc(db, "usuarios", user.uid);
