@@ -147,24 +147,22 @@
     </div>
 
     <div class="nav-right">
-      <a href="#" id="startBtn" class="cta-btn">Empezar</a>
-      <div id="profile-container">
-        <img
-          src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png"
-          alt="Perfil"
-          id="profile-icon"
-          style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
-        />
-        <div id="profile-menu">
-          <div id="auth-options">
-            <a href="auth.html">Iniciar sesión / Registrarse</a>
-          </div>
-          <div id="user-options" style="display: none;"></div>
-            <a href="cuenta.html">Cuenta</a>
-          </div>
-        </div>
+  <a href="#" id="startBtn" class="cta-btn">Empezar</a>
+  <div id="profile-container">
+    <img
+      src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png"
+      alt="Perfil"
+      id="profile-icon"
+      style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
+    />
+    <div id="profile-menu">
+      <div id="auth-options">
+        <a href="auth.html">Iniciar sesión / Registrarse</a>
       </div>
+      <div id="user-options" style="display: none;"></div> <!-- SE LLENA CON JS -->
     </div>
+  </div>
+</div>
   </nav>
 
   <header>
@@ -203,8 +201,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
@@ -214,6 +211,7 @@ import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   const profileIcon = document.getElementById("profile-icon");
   const profileMenu = document.getElementById("profile-menu");
@@ -230,45 +228,46 @@ import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth
     }
   });
 
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // Obtener nombre de usuario desde Firestore
-    try {
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-      const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
 
-      authOptions.style.display = "none";
-      userOptions.innerHTML = `
-        <div style="padding: 8px 12px; font-weight: bold; color: #6a0dad;">👤 ${username}</div>
-        <a href="cuenta.html">Perfil</a>
-        <a href="#" id="logout">Cerrar sesión</a>
-      `;
+        authOptions.style.display = "none";
+        userOptions.style.display = "block";
+        userOptions.innerHTML = `
+          <div style="padding: 8px 12px; font-weight: bold; color: #6a0dad;">👤 ${username}</div>
+          <a href="cuenta.html">Perfil</a>
+          <a href="#" id="logout">Cerrar sesión</a>
+        `;
 
-      const logoutBtn = document.getElementById("logout");
-      logoutBtn.addEventListener("click", async () => {
-        await signOut(auth);
-        location.reload();
-      });
+        document.getElementById("logout").addEventListener("click", async (e) => {
+          e.preventDefault();
+          await signOut(auth);
+          location.reload();
+        });
 
-      profileIcon.title = `Ver cuenta de ${username}`;
-    } catch (error) {
-      console.error("Error al obtener username:", error);
+        profileIcon.title = `Ver cuenta de ${username}`;
+      } catch (error) {
+        console.error("Error al obtener el username:", error);
+      }
+    } else {
+      authOptions.style.display = "block";
+      userOptions.style.display = "none";
+      profileIcon.title = "Inicia sesión para usar los servicios";
     }
-
-  } else {
-    authOptions.style.display = "block";
-    userOptions.style.display = "none";
-    profileIcon.title = "Inicia sesión para usar los servicios";
-  }
-});
+  });
 
   // Botones de empezar
   document.querySelectorAll("#startBtn, #startBtn2").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       onAuthStateChanged(auth, (user) => {
-        window.location.href = user ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html") : "auth.html";
+        window.location.href = user
+          ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html")
+          : "auth.html";
       });
     });
   });
