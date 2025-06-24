@@ -200,6 +200,26 @@
   <footer>
     ZETA / ZetaForge © 2025
   </footer>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+    authDomain: "zetaforgeapp.firebaseapp.com",
+    projectId: "zetaforgeapp"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Registrar nombre de usuario
+  async function guardarNombreUsuario(uid, username) {
+    const userRef = doc(db, "users", uid);
+    await setDoc(userRef, { username }, { merge: true });
+  }
 
   <script>
   // Efecto de fade-in al hacer scroll
