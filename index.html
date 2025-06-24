@@ -202,82 +202,83 @@
   </footer>
 
   <script>
-    // Efecto de fade-in al hacer scroll
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    section {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-      observer.observe(section);
-section.classList.remove('visible');
-    });
-  </script>
-</body>
-</html>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-      authDomain: "zetaforgeapp.firebaseapp.com",
-      projectId: "zetaforgeapp"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    const profileIcon = document.getElementById("profile-icon");
-    const profileMenu = document.getElementById("profile-menu");
-    const authOptions = document.getElementById("auth-options");
-    const userOptions = document.getElementById("user-options");
-
-    profileIcon.addEventListener("click", () => {
-      profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-    });
-
-    window.addEventListener("click", (e) => {
-      if (!document.getElementById("profile-container").contains(e.target)) {
-        profileMenu.style.display = "none";
+  // Efecto de fade-in al hacer scroll
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
       }
     });
+  }, { threshold: 0.1 });
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        authOptions.style.display = "none";
-        userOptions.style.display = "block";
-        profileIcon.title = "Ver tu cuenta";
-      } else {
-        authOptions.style.display = "block";
-        userOptions.style.display = "none";
-        profileIcon.title = "Inicia sesión para usar los servicios";
-      }
-    });
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+</script>
 
-    document.getElementById("startBtn").addEventListener("click", (e) => {
+<style>
+  section {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+    authDomain: "zetaforgeapp.firebaseapp.com",
+    projectId: "zetaforgeapp"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const profileIcon = document.getElementById("profile-icon");
+  const profileMenu = document.getElementById("profile-menu");
+  const authOptions = document.getElementById("auth-options");
+  const userOptions = document.getElementById("user-options");
+
+  profileIcon.addEventListener("click", () => {
+    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (!document.getElementById("profile-container").contains(e.target)) {
+      profileMenu.style.display = "none";
+    }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      authOptions.style.display = "none";
+      userOptions.style.display = "block";
+      profileIcon.title = "Ver tu cuenta";
+    } else {
+      authOptions.style.display = "block";
+      userOptions.style.display = "none";
+      profileIcon.title = "Inicia sesión para usar los servicios";
+    }
+  });
+
+  // Botones de empezar
+  document.querySelectorAll("#startBtn, #startBtn2").forEach(btn => {
+    btn.addEventListener("click", (e) => {
       e.preventDefault();
       onAuthStateChanged(auth, (user) => {
         window.location.href = user ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html") : "auth.html";
       });
     });
-
-    document.getElementById("startBtn2").addEventListener("click", (e) => {
-      e.preventDefault();
-      onAuthStateChanged(auth, (user) => {
-        window.location.href = user ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html") : "auth.html";
-      });
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
 
