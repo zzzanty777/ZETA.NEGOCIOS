@@ -177,38 +177,41 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const profileIcon = document.getElementById("profileIcon");
+  const profileIcon = document.getElementById("profile-icon");
 
-  onAuthStateChanged(auth, async user => {
+  onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      return window.location.href = "auth.html";
+      window.location.href = "auth.html";
+      return;
     }
 
     try {
-      const docRef = doc(db, "usuarios", user.uid);
-      const docSnap = await getDoc(docRef);
+      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
 
-      if (!docSnap.exists()) {
+      if (!userDoc.exists()) {
+        console.warn("Documento de usuario no existe");
         await signOut(auth);
-        return window.location.href = "auth.html";
+        window.location.href = "auth.html";
+        return;
       }
 
-      const tipo = docSnap.data().tipo || "Free";
+      const tipo = userDoc.data().tipo || "Free";
 
-      // Si es Free, no puede estar en Pro
+      // Si no es Pro, redirige
       if (tipo !== "Pro") {
-        return window.location.href = "dashboard.html";
+        window.location.href = "dashboard.html";
+        return;
       }
 
-      // Usuario válido Pro
+      // Si llegó hasta aquí, todo está bien
       profileIcon.title = "Acceder a tu cuenta";
       profileIcon.onclick = () => {
-        window.location.href = "pro.html";
+        window.location.href = "cuenta.html";
       };
-
     } catch (error) {
+      console.error("Error al obtener datos del usuario:", error);
       await signOut(auth);
-      return window.location.href = "auth.html";
+      window.location.href = "auth.html";
     }
   });
 
@@ -217,6 +220,7 @@
     window.location.href = "auth.html";
   };
 </script>
+
 
   <h1 class="page-title">Bienvenido a ZetaForge Pro</h1>
   <p>Aquí vas a encontrar tu formulario exclusivo Pro para crear negocios avanzados.</p>
