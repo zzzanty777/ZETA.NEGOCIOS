@@ -3,171 +3,177 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tu cuenta - ZetaForge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Mi Cuenta - ZetaForge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
       font-family: 'Inter', sans-serif;
+      margin: 0;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-      color: #f4f4f4;
+      color: #fff;
+      padding-top: 100px;
     }
+
     nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       background-color: #0d0d0d;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      position: relative;
-    }
-    .nav-left, .nav-right {
+      padding: 20px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 999;
     }
-    .nav-left a, .nav-right a {
+
+    nav div:first-child {
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: #ffffff;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
       color: #aaa;
       text-decoration: none;
       font-weight: 500;
     }
-    .cta-btn {
-      background: #6a0dad;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .cta-btn:hover {
-      background-color: #8b2bff;
-    }
-    .nav-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .logo {
-      height: 40px;
-    }
+
     .container {
       max-width: 600px;
-      margin: 80px auto;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
       padding: 30px;
-      background: #1a1a1a;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.6s ease-out;
-    }
-    .container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    h2 {
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
       text-align: center;
-      color: #fff;
-      margin-bottom: 30px;
     }
-    .field {
+
+    h1 {
+      font-size: 1.8rem;
       margin-bottom: 20px;
     }
-    .field label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .field input {
+
+    input {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
       border: none;
+      border-radius: 8px;
       background-color: #2a2a2a;
       color: white;
+      font-size: 1rem;
     }
-    .show-password {
-      margin-top: 10px;
-      color: #6a0dad;
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #6a0dad;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: 500;
-      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #8b2bff;
+    }
+
+    img#current-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 15px auto;
     }
   </style>
 </head>
 <body>
   <nav>
-    <div class="nav-left">
+    <div>ZetaForge</div>
+    <div class="nav-links">
       <a href="index.html">Inicio</a>
-      <a href="ejemplos.html">Ejemplos</a>
-      <a href="soporte.html">Soporte</a>
-      <a href="forgepro.html">Zeta Pro</a>
-    </div>
-    <div class="nav-center">
-      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" class="logo">
-    </div>
-    <div class="nav-right">
-      <a href="auth.html" class="cta-btn">Cerrar sesión</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pro.html">Zeta Pro</a>
     </div>
   </nav>
 
-  <div class="container" id="profile-box">
-    <h2>Tu perfil</h2>
-    <div class="field">
-      <label>Nombre de usuario</label>
-      <input type="text" id="username" readonly>
-    </div>
-    <div class="field">
-      <label>Correo electrónico</label>
-      <input type="email" id="email" readonly>
-    </div>
-    <div class="field">
-      <label>Contraseña</label>
-      <input type="password" id="password" value="********" readonly>
-      <div class="show-password" onclick="togglePassword()">Mostrar contraseña (solo visual)</div>
-    </div>
+  <div class="container">
+    <h1>Tu Cuenta</h1>
+    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" id="current-photo" alt="Foto de perfil">
+
+    <input type="file" id="upload-photo" accept="image/*">
+    <button onclick="uploadProfilePhoto()">Cambiar Foto de Perfil</button>
+
+    <input type="text" id="usernameInput" placeholder="Nuevo nombre de usuario">
+    <button onclick="updateUsername()">Actualizar Nombre de Usuario</button>
   </div>
 
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
-    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
-    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
       authDomain: "zetaforgeapp.firebaseapp.com",
-      projectId: "zetaforgeapp"
+      projectId: "zetaforgeapp",
+      storageBucket: "zetaforgeapp.appspot.com"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
-    const usernameInput = document.getElementById("username");
-    const emailInput = document.getElementById("email");
+    const photoEl = document.getElementById("current-photo");
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        emailInput.value = user.email;
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-          usernameInput.value = userSnap.data().username || "(sin nombre)";
-        } else {
-          usernameInput.value = "(sin nombre)";
-        }
-        document.getElementById("profile-box").classList.add("visible");
-      } else {
-        window.location.href = "auth.html";
+    onAuthStateChanged(auth, async user => {
+      if (!user) return window.location.href = "auth.html";
+
+      const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+      if (docSnap.exists() && docSnap.data().fotoURL) {
+        photoEl.src = docSnap.data().fotoURL;
       }
     });
-  </script>
 
-  <script>
-    function togglePassword() {
-      const passwordInput = document.getElementById("password");
-      passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-    }
+    window.uploadProfilePhoto = async () => {
+      const user = auth.currentUser;
+      const file = document.getElementById("upload-photo").files[0];
+      if (!file) return alert("Selecciona una imagen.");
+
+      if (file.size > 1024 * 200) return alert("La imagen no debe superar los 200KB.");
+      if (!file.type.startsWith("image/")) return alert("El archivo no es una imagen válida.");
+
+      const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+
+      await setDoc(doc(db, "usuarios", user.uid), { fotoURL: url }, { merge: true });
+      alert("Foto de perfil actualizada");
+      photoEl.src = url;
+    };
+
+    window.updateUsername = async () => {
+      const newUsername = document.getElementById("usernameInput").value.trim();
+      if (!newUsername) return alert("Ingresa un nombre de usuario válido");
+
+      const user = auth.currentUser;
+      await setDoc(doc(db, "usuarios", user.uid), { username: newUsername }, { merge: true });
+      alert("Nombre de usuario actualizado");
+    };
   </script>
 </body>
 </html>
+
