@@ -12,9 +12,8 @@
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #f4f4f4;
-      line-height: 1.6;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
@@ -65,21 +64,23 @@
 
     .container {
       background-color: rgba(255, 255, 255, 0.05);
-      padding: 30px;
+      padding: 30px 25px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
       width: 100%;
       max-width: 500px;
-      margin-bottom: 40px;
+      text-align: center;
+      box-sizing: border-box;
     }
 
-    input, button, label {
+    input, button {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
       border-radius: 8px;
       border: none;
       font-size: 1rem;
+      box-sizing: border-box;
     }
 
     input {
@@ -107,19 +108,6 @@
       margin: 0 auto 10px auto;
     }
 
-    .field {
-      margin-bottom: 15px;
-    }
-
-    #togglePass {
-      display: block;
-      margin-top: 5px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: #ccc;
-      text-align: right;
-    }
-
     .file-label {
       display: inline-block;
       background: #333;
@@ -129,7 +117,7 @@
       font-weight: 500;
       cursor: pointer;
       text-align: center;
-      margin: 10px auto;
+      margin-bottom: 10px;
       transition: background 0.3s ease;
     }
 
@@ -140,6 +128,34 @@
 
     #photoUpload {
       display: none;
+    }
+
+    .field {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px 20px;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-right {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
     }
   </style>
 </head>
@@ -157,7 +173,6 @@
     <h2>Tu cuenta</h2>
     <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" alt="Foto de perfil" id="profile-pic" class="profile-img">
     
-    <!-- Botón estilizado para cambiar foto -->
     <label for="photoUpload" class="file-label">Cambiar foto de perfil</label>
     <input type="file" id="photoUpload" accept="image/*">
 
@@ -166,12 +181,13 @@
     <button id="updateBtn">Actualizar</button>
 
     <hr style="margin: 20px 0; border: 1px solid #444;">
+
     <div class="field">
-      <label>Correo</label>
+      <label for="accountEmail">Correo</label>
       <input type="email" id="accountEmail" readonly />
     </div>
     <div class="field">
-      <label>Usuario</label>
+      <label for="accountUsername">Usuario</label>
       <input type="text" id="accountUsername" readonly />
     </div>
   </div>
@@ -254,7 +270,7 @@
     document.getElementById('startBtn').addEventListener('click', e => {
       e.preventDefault();
       onAuthStateChanged(auth, user => {
-        if(!user) return window.location.href = "auth.html";
+        if (!user) return window.location.href = "auth.html";
         getDoc(doc(db, "usuarios", user.uid)).then(docSnap => {
           const tipo = docSnap.data()?.tipo || "Free";
           window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
