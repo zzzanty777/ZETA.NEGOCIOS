@@ -8,14 +8,11 @@
   <style>
     body {
       margin: 0;
-      padding-top: 100px;
+      padding: 100px 20px 40px;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #f4f4f4;
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      min-height: 100vh;
     }
     nav {
       position: fixed;
@@ -30,9 +27,15 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       z-index: 999;
     }
-    .nav-links {
+    .nav-left {
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: #ffffff;
+    }
+    .nav-right {
       display: flex;
       gap: 20px;
+      align-items: center;
     }
     nav a {
       color: #aaa;
@@ -56,8 +59,10 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
       width: 100%;
       max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
     }
-    input, button, label {
+    input, button {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
@@ -85,29 +90,21 @@
       object-fit: cover;
       margin-bottom: 10px;
     }
-    .file-label {
-      display: inline-block;
-      background: #333;
-      padding: 10px;
-      margin-top: 10px;
-      color: #ccc;
-      cursor: pointer;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .file-label:hover {
-      background: #444;
-    }
-    .hidden {
-      display: none;
-    }
-    .field-group {
+    .field {
+      margin-bottom: 15px;
+      text-align: left;
       position: relative;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
     }
     .toggle-password {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
       background: none;
       border: none;
       color: #ccc;
@@ -116,118 +113,97 @@
   </style>
 </head>
 <body>
- <nav>
-  <div class="nav-left">
-    ZetaForge
-    <a href="index.html">Inicio</a>
-    <a href="pricing.html">Zeta Pro</a>
-  </div>
-  <div class="nav-right">
-    <a href="#" id="startBtn" class="cta-btn">Empezar</a>
-    <div id="profile-container">
-      <img id="profile-icon" src=".../fotodeperfil.png" alt="Perfil" class="profile-img">
-      <div id="profile-menu"></div>
+  <nav>
+    <div class="nav-left">ZetaForge</div>
+    <div class="nav-right">
+      <a href="index.html">Inicio</a>
+      <a href="pricing.html">Zeta Pro</a>
+      <a href="#" id="startBtn" class="cta-btn">Empezar</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Tu cuenta</h2>
+    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" alt="Foto de perfil" id="profile-pic" class="profile-img">
+
+    <div class="field">
+      <label for="username">Cambiar nombre de usuario</label>
+      <input type="text" id="username" placeholder="Nombre de usuario">
+    </div>
+    <button id="updateBtn">Actualizar</button>
+
+    <hr style="margin: 20px 0; border: 1px solid #444;">
+    <div class="field">
+      <label for="accountEmail">Correo</label>
+      <input type="email" id="accountEmail" readonly />
+    </div>
+    <div class="field">
+      <label for="accountUsername">Usuario</label>
+      <input type="text" id="accountUsername" readonly />
+    </div>
+    <div class="field">
+      <label for="accountPass">Contraseña</label>
+      <input type="password" id="accountPass" value="********" readonly />
+      <button class="toggle-password" onclick="togglePassword()">👁️</button>
     </div>
   </div>
-</nav>
-<div class="container">
-  <h2>Tu cuenta</h2>
-  <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" alt="Foto de perfil" id="profile-pic" class="profile-img">
-  <label class="file-label">
-    Cambiar foto
-    <input type="file" id="photoUpload" accept="image/*" class="hidden" />
-  </label>
-  <p class="note">Max 1 MB</p>
-  <input type="text" id="username" placeholder="Nombre de usuario">
-  <button id="updateBtn">Actualizar</button>
-  <hr style="margin: 20px 0; border: 1px solid #444;">
-  <div class="field">
-    <label>Correo</label>
-    <input type="email" id="accountEmail" readonly />
-  </div>
-  <div class="field">
-    <label>Usuario</label>
-    <input type="text" id="accountUsername" readonly />
-  </div>
-  <div class="field-group">
-    <label>Contraseña</label>
-    <input type="password" id="accountPass" readonly value="********" />
-    <button id="togglePass" class="toggle-password">👁️</button>
-  </div>
-</div>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-  authDomain: "zetaforgeapp.firebaseapp.com",
-  projectId: "zetaforgeapp",
-  storageBucket: "zetaforgeapp.appspot.com"
-};
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+    const app = initializeApp({
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp"
+    });
 
-const usernameInput = document.getElementById("username");
-const profilePic = document.getElementById("profile-pic");
-const updateBtn = document.getElementById("updateBtn");
-const photoUpload = document.getElementById("photoUpload");
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) return (window.location.href = "auth.html");
-  document.getElementById('accountEmail').value = user.email;
-  const docRef = doc(db, "usuarios", user.uid);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    usernameInput.value = docSnap.data().username || "";
-    document.getElementById('accountUsername').value = docSnap.data().username || "";
-    if (docSnap.data().photoURL) profilePic.src = docSnap.data().photoURL;
-  }
-});
+    let currentUser;
+    const usernameInput = document.getElementById("username");
+    const emailInput = document.getElementById("accountEmail");
+    const readonlyUsername = document.getElementById("accountUsername");
 
-updateBtn.onclick = async () => {
-  const newUsername = usernameInput.value.trim();
-  if (!newUsername) return alert("Nombre inválido");
-  const user = auth.currentUser;
-  await updateDoc(doc(db, "usuarios", user.uid), {
-    username: newUsername
-  });
-  alert("Nombre actualizado");
-};
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return (window.location.href = "auth.html");
+      currentUser = user;
+      emailInput.value = user.email;
 
-photoUpload.addEventListener("change", async () => {
-  const file = photoUpload.files[0];
-  if (!file) return;
-  if (file.size > 1024 * 1024) return alert("La imagen no debe superar 1MB");
-  const user = auth.currentUser;
-  const fileRef = ref(storage, `profilePics/${user.uid}`);
-  await uploadBytes(fileRef, file);
-  const url = await getDownloadURL(fileRef);
-  await updateDoc(doc(db, "usuarios", user.uid), { photoURL: url });
-  profilePic.src = url;
-  alert("Foto actualizada");
-});
+      const userSnap = await getDoc(doc(db, "usuarios", user.uid));
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        usernameInput.value = data.username || "";
+        readonlyUsername.value = data.username || "";
+      }
+    });
 
-document.getElementById("startBtn").onclick = (e) => {
-  e.preventDefault();
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) return (window.location.href = "auth.html");
-    const snap = await getDoc(doc(db, "usuarios", user.uid));
-    const tipo = snap.data()?.tipo || "Free";
-    window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
-  });
-};
+    document.getElementById("updateBtn").onclick = async () => {
+      const newUsername = usernameInput.value.trim();
+      if (!newUsername) return alert("Nombre inválido");
+      await updateDoc(doc(db, "usuarios", currentUser.uid), { username: newUsername });
+      alert("Nombre actualizado");
+      readonlyUsername.value = newUsername;
+    };
 
-document.getElementById("togglePass").addEventListener("click", () => {
-  const passInput = document.getElementById("accountPass");
-  passInput.type = passInput.type === "password" ? "text" : "password";
-});
-</script>
+    document.getElementById("startBtn").onclick = (e) => {
+      e.preventDefault();
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) return (window.location.href = "auth.html");
+        const snap = await getDoc(doc(db, "usuarios", user.uid));
+        const tipo = snap.data()?.tipo || "Free";
+        window.location.href = tipo === "Pro" ? "pro.html" : "dashboard.html";
+      });
+    };
+
+    window.togglePassword = function () {
+      const passInput = document.getElementById("accountPass");
+      passInput.type = passInput.type === "password" ? "text" : "password";
+    };
+  </script>
 </body>
 </html>
+
 
