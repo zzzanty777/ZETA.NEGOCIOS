@@ -240,10 +240,9 @@
 
         const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
         userTipo = userSnap.exists() ? userSnap.data().tipo || "Free" : "Free";
-        const color = userSnap.exists() ? userSnap.data().profileColor : null;
-if (color) {
-  document.body.style.background = color;
-}
+            const bgColor = userSnap.data().avatarBgColor || "#ffffff";
+    document.body.style.background = bgColor;
+
 
 
         authOptions.style.display = "none";
