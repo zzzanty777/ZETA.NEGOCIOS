@@ -218,6 +218,9 @@
   const authOptions = document.getElementById("auth-options");
   const userOptions = document.getElementById("user-options");
 
+  let currentUser = null;
+  let userTipo = "Free";
+
   profileIcon.addEventListener("click", () => {
     profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
   });
@@ -230,10 +233,13 @@
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      currentUser = user;
       try {
-        const userRef = doc(db, "users", user.uid);
+        const userRef = doc(db, "usuarios", user.uid); // Asegúrate que tu colección se llama 'usuarios'
         const userSnap = await getDoc(userRef);
+
         const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
+        userTipo = userSnap.exists() ? userSnap.data().tipo || "Free" : "Free";
 
         authOptions.style.display = "none";
         userOptions.style.display = "block";
@@ -251,7 +257,7 @@
 
         profileIcon.title = `Ver cuenta de ${username}`;
       } catch (error) {
-        console.error("Error al obtener el username:", error);
+        console.error("Error al obtener el usuario:", error);
       }
     } else {
       authOptions.style.display = "block";
@@ -260,15 +266,15 @@
     }
   });
 
-  // Botones de empezar
+  // ✅ Botón "Empezar" con detección de sesión
   document.querySelectorAll("#startBtn, #startBtn2").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      onAuthStateChanged(auth, (user) => {
-        window.location.href = user
-          ? (user.email.endsWith("@pro.com") ? "pro.html" : "dashboard.html")
-          : "auth.html";
-      });
+      if (!currentUser) {
+        window.location.href = "auth.html";
+      } else {
+        window.location.href = userTipo === "Pro" ? "pro.html" : "dashboard.html";
+      }
     });
   });
 </script>
