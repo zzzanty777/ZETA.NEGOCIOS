@@ -6,12 +6,23 @@
   <title>Ejemplos - ZetaForge</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #f4f4f4;
+      animation: fadeIn 1s ease-in;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     nav {
       display: flex;
       align-items: center;
@@ -21,20 +32,29 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
+
     .nav-left, .nav-right {
       display: flex;
       align-items: center;
       gap: 20px;
     }
+
     .nav-left a, .nav-right a {
       color: #aaa;
       text-decoration: none;
       font-weight: 500;
+      transition: color 0.3s ease;
     }
+
+    .nav-left a:hover, .nav-right a:hover {
+      color: #fff;
+    }
+
     .nav-left a[href="forgepro.html"] {
       color: #6a0dad;
       font-weight: 600;
     }
+
     .cta-btn {
       background: #6a0dad;
       color: white;
@@ -42,66 +62,102 @@
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
+      transition: all 0.3s ease;
     }
+
     .cta-btn:hover {
       background-color: #8b2bff;
+      transform: scale(1.05);
     }
+
     .nav-center {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
     }
+
     .logo {
       height: 72px;
       filter: drop-shadow(0 0 5px #fff);
     }
+
     h1 {
       text-align: center;
       margin-top: 80px;
       font-size: 2.5rem;
       color: #fff;
+      animation: fadeIn 1.5s ease-in;
     }
-   <style>
-  .ejemplo-logo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    margin-bottom: 15px;
-  }
 
-  .ejemplo-logo img {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-  }
+    .ejemplo-bloque {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      margin: 40px auto;
+      max-width: 900px;
+      gap: 30px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 0.6s ease-out forwards;
+    }
 
-  .ejemplo-bloque {
-    background: #1a1a1a;
-    padding: 30px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 40px;
-    gap: 30px;
-  }
+    .ejemplo-bloque:nth-child(2) {
+      animation-delay: 0.3s;
+    }
 
-  .ejemplo-bloque.izquierda {
-    flex-direction: row;
-  }
+    .ejemplo-bloque:nth-child(3) {
+      animation-delay: 0.6s;
+    }
 
-  .ejemplo-bloque.derecha {
-    flex-direction: row-reverse;
-  }
+    .ejemplo-bloque:nth-child(4) {
+      animation-delay: 0.9s;
+    }
 
-  .ejemplo-texto {
-    max-width: 500px;
-  }
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .ejemplo-bloque.izquierda {
+      flex-direction: row;
+    }
+
+    .ejemplo-bloque.derecha {
+      flex-direction: row-reverse;
+    }
+
+    .ejemplo-logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .ejemplo-logo img {
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: contain;
+    }
+
+    .ejemplo-bloque:hover .ejemplo-logo {
+      transform: scale(1.08);
+    }
+
+    .ejemplo-texto {
+      max-width: 500px;
+    }
+
     footer {
       text-align: center;
       padding: 30px 20px 10px;
@@ -110,6 +166,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background-color: #0d0d0d;
     }
+
     footer a {
       color: #6a0dad;
       text-decoration: none;
@@ -124,43 +181,52 @@
       <a href="soporte.html">Soporte</a>
       <a href="forgepro.html">Zeta Pro</a>
     </div>
-    <div class="ejemplo-bloque izquierda">
-  <div class="ejemplo-logo">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/urbanova-logo.png" alt="UrbanNova">
-  </div>
-  <div class="ejemplo-texto">
-    <h3>UrbanNova</h3>
-    <p><em>"La ciudad se viste contigo"</em></p>
-    <p>Marca de moda urbana pensada para jóvenes creativos y rebeldes. Diseño, comunidad y actitud.</p>
-    <p><strong>Sector:</strong> Moda urbana</p>
-  </div>
-</div>
+    <div class="nav-center">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" class="logo">
+    </div>
+    <div class="nav-right">
+      <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
+    </div>
+  </nav>
 
-<!-- Bloque de ejemplo (derecha) -->
-<div class="ejemplo-bloque derecha">
-  <div class="ejemplo-logo">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/foodai-logo.png" alt="FoodAI">
-  </div>
-  <div class="ejemplo-texto">
-    <h3>FoodAI</h3>
-    <p><em>"Comé bien, sin pensar"</em></p>
-    <p>App con IA que te arma menús saludables diarios según tus gustos, tiempo y presupuesto.</p>
-    <p><strong>Sector:</strong> Alimentación inteligente</p>
-  </div>
-</div>
+  <h1>Ejemplos de negocios creados con ZetaForge</h1>
 
-<!-- Bloque de ejemplo (izquierda) -->
-<div class="ejemplo-bloque izquierda">
-  <div class="ejemplo-logo">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/hustlego-logo.png" alt="HustleGo">
+  <div class="ejemplo-bloque izquierda">
+    <div class="ejemplo-logo">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/urbanova-logo.png" alt="UrbanNova">
+    </div>
+    <div class="ejemplo-texto">
+      <h3>UrbanNova</h3>
+      <p><em>"La ciudad se viste contigo"</em></p>
+      <p>Marca de moda urbana pensada para jóvenes creativos y rebeldes. Diseño, comunidad y actitud.</p>
+      <p><strong>Sector:</strong> Moda urbana</p>
+    </div>
   </div>
-  <div class="ejemplo-texto">
-    <h3>HustleGo</h3>
-    <p><em>"Negocios en movimiento"</em></p>
-    <p>Consultoría express para emprendedores que necesitan resultados ya. Branding, funnels, redes.</p>
-    <p><strong>Sector:</strong> Consultoría digital</p>
+
+  <div class="ejemplo-bloque derecha">
+    <div class="ejemplo-logo">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/foodai-logo.png" alt="FoodAI">
+    </div>
+    <div class="ejemplo-texto">
+      <h3>FoodAI</h3>
+      <p><em>"Comé bien, sin pensar"</em></p>
+      <p>App con IA que te arma menús saludables diarios según tus gustos, tiempo y presupuesto.</p>
+      <p><strong>Sector:</strong> Alimentación inteligente</p>
+    </div>
   </div>
-</div>
+
+  <div class="ejemplo-bloque izquierda">
+    <div class="ejemplo-logo">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/hustlego-logo.png" alt="HustleGo">
+    </div>
+    <div class="ejemplo-texto">
+      <h3>HustleGo</h3>
+      <p><em>"Negocios en movimiento"</em></p>
+      <p>Consultoría express para emprendedores que necesitan resultados ya. Branding, funnels, redes.</p>
+      <p><strong>Sector:</strong> Consultoría digital</p>
+    </div>
+  </div>
+
   <footer>
     ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales.<br>
     <div style="margin-top: 10px">
@@ -169,3 +235,4 @@
   </footer>
 </body>
 </html>
+
