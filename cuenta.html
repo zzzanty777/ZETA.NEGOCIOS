@@ -6,33 +6,32 @@
   <title>Tu Cuenta - ZetaForge</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-   body {
-  margin: 0;
-  padding-top: 80px; /* antes era 100px, bajamos un poco */
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-  color: #f4f4f4;
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
+    body {
+      margin: 0;
+      padding-top: 100px;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #f4f4f4;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-  nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #0d0d0d;
-  padding: 16px 30px; /* más espacio horizontal para que no corte */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  z-index: 999;
-  box-sizing: border-box;
-}
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 999;
+    }
 
     .nav-left {
       font-weight: bold;
@@ -66,23 +65,21 @@
 
     .container {
       background-color: rgba(255, 255, 255, 0.05);
-      padding: 30px 25px;
+      padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
       width: 100%;
       max-width: 500px;
-      text-align: center;
-      box-sizing: border-box;
+      margin-bottom: 40px;
     }
 
-    input, button {
+    input, button, label {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
       border-radius: 8px;
       border: none;
       font-size: 1rem;
-      box-sizing: border-box;
     }
 
     input {
@@ -101,62 +98,20 @@
       background: #8b2bff;
     }
 
-    .profile-img {
+    .avatar {
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto 10px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #6a0dad;
+      margin: 0 auto 15px auto;
     }
 
-   .file-label {
-  display: inline-block;
-  background: #333;
-  color: #ccc;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  text-align: center;
-  margin-top: 10px;
-  transition: background 0.3s ease;
-}
-.file-label:hover {
-  background: #444;
-  color: white;
-}
-#photoUpload {
-  display: none;
-}
-
-
-    .field {
-      margin-bottom: 15px;
-      text-align: left;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 25px 20px;
-      }
-
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-right {
-        margin-top: 10px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
+    .avatar img {
+      width: 60px;
+      height: 60px;
     }
   </style>
 </head>
@@ -170,32 +125,28 @@
     </div>
   </nav>
 
-<div class="container">
-  <h2>Tu cuenta</h2>
+  <div class="container">
+    <h2>Tu cuenta</h2>
+    <div id="avatar" class="avatar">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" alt="Foto de perfil">
+    </div>
+    <label for="colorPicker">Cambiar color de fondo del avatar</label>
+    <input type="color" id="colorPicker">
 
-  <!-- Foto de perfil centrada -->
-  <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" alt="Foto de perfil" id="profile-pic" class="profile-img">
+    <label for="username">Cambiar nombre de usuario</label>
+    <input type="text" id="username" placeholder="Nombre de usuario">
+    <button id="updateBtn">Actualizar</button>
 
-  <!-- Botón estilizado para subir nueva foto -->
-  <label for="photoUpload" class="file-label">Cambiar foto de perfil</label>
-  <input type="file" id="photoUpload" accept="image/*">
-
-  <!-- Ahora correctamente abajo -->
-  <label for="username" style="margin-top: 20px; display: block;">Cambiar nombre de usuario</label>
-  <input type="text" id="username" placeholder="Nombre de usuario">
-  <button id="updateBtn">Actualizar</button>
-
-  <hr style="margin: 20px 0; border: 1px solid #444;">
-
-  <div class="field">
-    <label for="accountEmail">Correo</label>
-    <input type="email" id="accountEmail" readonly />
+    <hr style="margin: 20px 0; border: 1px solid #444;">
+    <div class="field">
+      <label>Correo</label>
+      <input type="email" id="accountEmail" readonly />
+    </div>
+    <div class="field">
+      <label>Usuario</label>
+      <input type="text" id="accountUsername" readonly />
+    </div>
   </div>
-  <div class="field">
-    <label for="accountUsername">Usuario</label>
-    <input type="text" id="accountUsername" readonly />
-  </div>
-</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -209,30 +160,23 @@
       getDoc,
       updateDoc
     } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import {
-      getStorage,
-      ref,
-      uploadBytes,
-      getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
       authDomain: "zetaforgeapp.firebaseapp.com",
-      projectId: "zetaforgeapp",
-      storageBucket: "zetaforgeapp.appspot.com"
+      projectId: "zetaforgeapp"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
     const usernameInput = document.getElementById("username");
     const emailDisplay = document.getElementById("accountEmail");
     const updateBtn = document.getElementById("updateBtn");
-    const profilePic = document.getElementById("profile-pic");
-    const fileInput = document.getElementById("photoUpload");
+    const accountUsername = document.getElementById("accountUsername");
+    const colorPicker = document.getElementById("colorPicker");
+    const avatar = document.getElementById("avatar");
 
     let currentUser;
 
@@ -240,12 +184,15 @@
       if (!user) return (window.location.href = "auth.html");
       currentUser = user;
       emailDisplay.value = user.email;
+
       const docRef = doc(db, "usuarios", user.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        usernameInput.value = docSnap.data().username || "";
-        document.getElementById("accountUsername").value = docSnap.data().username || "";
-        if (docSnap.data().photoURL) profilePic.src = docSnap.data().photoURL;
+        const data = docSnap.data();
+        usernameInput.value = data.username || "";
+        accountUsername.value = data.username || "";
+        avatar.style.backgroundColor = data.avatarBgColor || "#6a0dad";
+        colorPicker.value = data.avatarBgColor || "#6a0dad";
       }
     });
 
@@ -258,18 +205,12 @@
       alert("Nombre actualizado");
     };
 
-    fileInput.addEventListener('change', async () => {
-      const file = fileInput.files[0];
-      if (file.size > 1024 * 1024) {
-        alert("La imagen no debe superar 1 MB.");
-        return;
-      }
-      const fileRef = ref(storage, `profilePics/${currentUser.uid}`);
-      await uploadBytes(fileRef, file);
-      const url = await getDownloadURL(fileRef);
-      await updateDoc(doc(db, "usuarios", currentUser.uid), { photoURL: url });
-      profilePic.src = url;
-      alert("Foto de perfil actualizada");
+    colorPicker.addEventListener("input", async (e) => {
+      const color = e.target.value;
+      avatar.style.backgroundColor = color;
+      await updateDoc(doc(db, "usuarios", currentUser.uid), {
+        avatarBgColor: color
+      });
     });
 
     document.getElementById('startBtn').addEventListener('click', e => {
@@ -285,6 +226,7 @@
   </script>
 </body>
 </html>
+
 
 
 
