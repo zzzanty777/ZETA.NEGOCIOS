@@ -149,12 +149,13 @@
     <div class="nav-right">
   <a href="#" id="startBtn" class="cta-btn">Empezar</a>
   <div id="profile-container">
-    <img
-      src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png"
-      alt="Perfil"
-      id="profile-icon"
-      style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
-    />
+   <div id="profile-icon" style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+  <img
+    src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png"
+    alt="Perfil"
+    style="width: 100%; height: 100%; object-fit: cover;"
+  />
+</div>
     <div id="profile-menu">
       <div id="auth-options">
         <a href="auth.html">Iniciar sesión / Registrarse</a>
@@ -240,8 +241,9 @@
 
         const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
         userTipo = userSnap.exists() ? userSnap.data().tipo || "Free" : "Free";
-            const bgColor = userSnap.data().avatarBgColor || "#ffffff";
-    document.body.style.background = bgColor;
+        const bgColor = userSnap.data().avatarBgColor || "#ffffff";
+document.getElementById("profile-icon").style.backgroundColor = bgColor;
+document.getElementById("profile-icon").style.border = "2px solid #fff";
 
 
 
