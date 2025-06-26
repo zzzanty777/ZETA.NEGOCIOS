@@ -61,29 +61,47 @@
       font-size: 2.5rem;
       color: #fff;
     }
-    .example-block {
-      max-width: 900px;
-      margin: 40px auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    }
-    .example-block:nth-child(even) {
-      flex-direction: row-reverse;
-    }
-    .example-logo {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      margin: 0 20px;
-    }
-    .example-info {
-      flex: 1;
-    }
+   <style>
+  .ejemplo-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    margin-bottom: 15px;
+  }
+
+  .ejemplo-logo img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+  }
+
+  .ejemplo-bloque {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 30px;
+  }
+
+  .ejemplo-bloque.izquierda {
+    flex-direction: row;
+  }
+
+  .ejemplo-bloque.derecha {
+    flex-direction: row-reverse;
+  }
+
+  .ejemplo-texto {
+    max-width: 500px;
+  }
     footer {
       text-align: center;
       padding: 30px 20px 10px;
@@ -106,46 +124,43 @@
       <a href="soporte.html">Soporte</a>
       <a href="forgepro.html">Zeta Pro</a>
     </div>
-    <div class="nav-center">
-      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" class="logo">
-    </div>
-    <div class="nav-right">
-      <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
-    </div>
-  </nav>
-
-  <h1>Ejemplos de negocios creados con ZetaForge</h1>
-
-  <div class="example-block">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/urbanova-logo.png" alt="UrbanNova" class="example-logo">
-    <div class="example-info">
-      <h3>UrbanNova</h3>
-      <p><em>"La ciudad se viste contigo"</em></p>
-      <p>Sector: Moda urbana</p>
-      <p>Una marca enfocada en estilo callejero, creada con inteligencia artificial para emprendedores jóvenes y rebeldes.</p>
-    </div>
+    <div class="ejemplo-bloque izquierda">
+  <div class="ejemplo-logo">
+    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/urbanova-logo.png" alt="UrbanNova">
   </div>
-
-  <div class="example-block">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/foodai-logo.png" alt="FoodAI" class="example-logo">
-    <div class="example-info">
-      <h3>FoodAI</h3>
-      <p><em>"Comé bien, sin pensar"</em></p>
-      <p>Sector: Comida saludable</p>
-      <p>App en desarollo por ZetaForge que sugiere comidas según tus objetivos y gustos con IA.</p>
-    </div>
+  <div class="ejemplo-texto">
+    <h3>UrbanNova</h3>
+    <p><em>"La ciudad se viste contigo"</em></p>
+    <p>Marca de moda urbana pensada para jóvenes creativos y rebeldes. Diseño, comunidad y actitud.</p>
+    <p><strong>Sector:</strong> Moda urbana</p>
   </div>
+</div>
 
-  <div class="example-block">
-    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/hustlego-logo.png" alt="HustleGo" class="example-logo">
-    <div class="example-info">
-      <h3>HustleGo</h3>
-      <p><em>"Negocios en movimiento"</em></p>
-      <p>Sector: Consultoría digital</p>
-      <p>Asistente de negocios móvil, creado en segundos con ZetaForge, ideal para emprendedores en constante viaje.</p>
-    </div>
+<!-- Bloque de ejemplo (derecha) -->
+<div class="ejemplo-bloque derecha">
+  <div class="ejemplo-logo">
+    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/foodai-logo.png" alt="FoodAI">
   </div>
+  <div class="ejemplo-texto">
+    <h3>FoodAI</h3>
+    <p><em>"Comé bien, sin pensar"</em></p>
+    <p>App con IA que te arma menús saludables diarios según tus gustos, tiempo y presupuesto.</p>
+    <p><strong>Sector:</strong> Alimentación inteligente</p>
+  </div>
+</div>
 
+<!-- Bloque de ejemplo (izquierda) -->
+<div class="ejemplo-bloque izquierda">
+  <div class="ejemplo-logo">
+    <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/hustlego-logo.png" alt="HustleGo">
+  </div>
+  <div class="ejemplo-texto">
+    <h3>HustleGo</h3>
+    <p><em>"Negocios en movimiento"</em></p>
+    <p>Consultoría express para emprendedores que necesitan resultados ya. Branding, funnels, redes.</p>
+    <p><strong>Sector:</strong> Consultoría digital</p>
+  </div>
+</div>
   <footer>
     ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales.<br>
     <div style="margin-top: 10px">
