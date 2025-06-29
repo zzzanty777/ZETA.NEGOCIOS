@@ -11,7 +11,6 @@
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #f4f4f4;
-      line-height: 1.6;
     }
     nav {
       display: flex;
@@ -56,18 +55,13 @@
       height: 72px;
       filter: drop-shadow(0 0 5px #fff);
     }
-    h1 {
-      text-align: center;
-      margin-top: 80px;
-      font-size: 2.5rem;
-    }
     .faq-block {
       background: #1a1a1a;
-      margin: 30px auto;
-      padding: 30px;
-      border-radius: 16px;
-      max-width: 800px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      padding: 25px;
+      border-radius: 12px;
+      margin: 20px auto;
+      max-width: 700px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .faq-block h3 {
       margin-top: 0;
@@ -100,34 +94,34 @@
     </div>
     <div class="nav-right">
       <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
+      <div id="profile-container">
+        <div id="profile-icon" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background-color: #fff;"></div>
+        <div id="profile-menu" style="display: none; position: absolute; right: 0; top: 60px; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; min-width: 160px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); z-index: 1000;">
+          <div id="auth-options">
+            <a href="auth.html" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Iniciar sesión / Registrarse</a>
+          </div>
+          <div id="user-options" style="display: none;"></div>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <h1>¿Necesitás ayuda?</h1>
-
+  <h1 style="text-align:center; margin-top: 60px;">¿Necesitás ayuda?</h1>
   <div class="faq-block">
-    <h3>📩 ¿Cómo puedo contactar a soporte?</h3>
-    <p>Podés escribirnos directamente a <strong>zetaforge.soporte@gmail.com</strong> y te responderemos en menos de 24 horas hábiles.</p>
+    <h3>📩 Contacto directo</h3>
+    <p>Puedes escribirnos a <strong>zetaforge.soporte@gmail.com</strong> y te responderemos lo antes posible.</p>
   </div>
-
   <div class="faq-block">
-    <h3>⏱️ ¿Cuánto tarda en generarse un negocio?</h3>
-    <p>Generalmente entre <strong>1 y 3 minutos</strong>. Si tarda más, podés cerrar sesión y volver a ingresar. Si el problema persiste, contactanos.</p>
+    <h3>⏱️ ¿Cuánto tarda en llegar mi negocio?</h3>
+    <p>Una vez completado el formulario, tu negocio será generado en un plazo de 1 a 3 minutos automáticamente con IA.</p>
   </div>
-
   <div class="faq-block">
-    <h3>💸 ¿ZetaForge es gratuito?</h3>
-    <p>Sí, el acceso al plan <strong>Free</strong> es completamente gratuito y podés crear negocios básicos sin pagar nada.</p>
+    <h3>💸 ¿Es gratis?</h3>
+    <p>Sí. La versión básica de ZetaForge es completamente gratuita. Solo pagas si quieres funciones avanzadas con Zeta Pro.</p>
   </div>
-
   <div class="faq-block">
-    <h3>🎨 ¿Puedo pedir personalizaciones específicas?</h3>
-    <p>¡Sí! Si querés logos premium, estrategias personalizadas o textos avanzados, podés actualizarte al plan <strong>Zeta Pro</strong>.</p>
-  </div>
-
-  <div class="faq-block">
-    <h3>⚙️ ¿Puedo editar mi perfil o cambiar mi información?</h3>
-    <p>Desde tu cuenta podés cambiar el nombre de usuario, correo o color del avatar. Próximamente se habilitarán más opciones.</p>
+    <h3>🎯 ¿Puedo pedir algo personalizado?</h3>
+    <p>Sí, desde el plan Zeta Pro puedes acceder a formularios más potentes, con generación optimizada para tus ideas específicas.</p>
   </div>
 
   <footer>
@@ -136,6 +130,69 @@
       <a href="legal.html">Términos y condiciones</a>
     </div>
   </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const profileIcon = document.getElementById("profile-icon");
+    const profileMenu = document.getElementById("profile-menu");
+    const authOptions = document.getElementById("auth-options");
+    const userOptions = document.getElementById("user-options");
+
+    profileIcon.addEventListener("click", () => {
+      profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (!document.getElementById("profile-container").contains(e.target)) {
+        profileMenu.style.display = "none";
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userRef = doc(db, "usuarios", user.uid);
+          const userSnap = await getDoc(userRef);
+          const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
+          const bgColor = userSnap.data().avatarBgColor || "#ffffff";
+
+          profileIcon.style.backgroundColor = bgColor;
+          authOptions.style.display = "none";
+          userOptions.style.display = "block";
+          userOptions.innerHTML = `
+            <div style="padding: 8px 12px; font-weight: bold; color: #6a0dad;">👤 ${username}</div>
+            <a href="cuenta.html" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Perfil</a>
+            <a href="#" id="logout" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Cerrar sesión</a>
+          `;
+
+          document.getElementById("logout").addEventListener("click", async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            location.reload();
+          });
+        } catch (error) {
+          console.error("Error al obtener datos del usuario:", error);
+        }
+      } else {
+        authOptions.style.display = "block";
+        userOptions.style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
+
 
