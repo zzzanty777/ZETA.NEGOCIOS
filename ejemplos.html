@@ -9,7 +9,6 @@
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -17,12 +16,10 @@
       color: #f4f4f4;
       animation: fadeIn 1s ease-in;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     nav {
       display: flex;
       align-items: center;
@@ -32,29 +29,24 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
-
     .nav-left, .nav-right {
       display: flex;
       align-items: center;
       gap: 20px;
     }
-
     .nav-left a, .nav-right a {
       color: #aaa;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s ease;
     }
-
     .nav-left a:hover, .nav-right a:hover {
       color: #fff;
     }
-
     .nav-left a[href="forgepro.html"] {
       color: #6a0dad;
       font-weight: 600;
     }
-
     .cta-btn {
       background: #6a0dad;
       color: white;
@@ -64,23 +56,52 @@
       font-weight: 600;
       transition: all 0.3s ease;
     }
-
     .cta-btn:hover {
       background-color: #8b2bff;
       transform: scale(1.05);
     }
-
     .nav-center {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
     }
-
     .logo {
       height: 72px;
       filter: drop-shadow(0 0 5px #fff);
     }
-
+    #profile-container {
+      position: relative;
+      margin-left: 20px;
+    }
+    #profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #fff;
+      object-fit: cover;
+    }
+    #profile-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    #profile-menu a {
+      display: block;
+      padding: 8px 12px;
+      color: #ccc;
+      text-decoration: none;
+    }
+    #profile-menu a:hover {
+      background: #333;
+    }
     h1 {
       text-align: center;
       margin-top: 80px;
@@ -88,7 +109,6 @@
       color: #fff;
       animation: fadeIn 1.5s ease-in;
     }
-
     .ejemplo-bloque {
       background: #1a1a1a;
       padding: 30px;
@@ -103,61 +123,37 @@
       transform: translateY(20px);
       animation: slideIn 0.6s ease-out forwards;
     }
-
-    .ejemplo-bloque:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    .ejemplo-bloque:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    .ejemplo-bloque:nth-child(4) {
-      animation-delay: 0.9s;
-    }
-
+    .ejemplo-bloque:nth-of-type(1) { animation-delay: 0.3s; }
+    .ejemplo-bloque:nth-of-type(2) { animation-delay: 0.6s; }
+    .ejemplo-bloque:nth-of-type(3) { animation-delay: 0.9s; }
     @keyframes slideIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    .ejemplo-bloque.izquierda {
-      flex-direction: row;
-    }
-
-    .ejemplo-bloque.derecha {
-      flex-direction: row-reverse;
-    }
-
+    .ejemplo-bloque.izquierda { flex-direction: row; }
+    .ejemplo-bloque.derecha { flex-direction: row-reverse; }
     .ejemplo-logo {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease;
-  }
-
-  .ejemplo-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+    .ejemplo-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .ejemplo-bloque:hover .ejemplo-logo {
       transform: scale(1.08);
     }
-
     .ejemplo-texto {
       max-width: 500px;
     }
-
     footer {
       text-align: center;
       padding: 30px 20px 10px;
@@ -166,7 +162,6 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background-color: #0d0d0d;
     }
-
     footer a {
       color: #6a0dad;
       text-decoration: none;
@@ -186,16 +181,16 @@
     </div>
     <div class="nav-right">
       <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
+      <div id="profile-container">
+        <img id="profile-icon" src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/fotodeperfil.png" alt="Perfil">
+        <div id="profile-menu">
+          <div id="auth-options">
+            <a href="auth.html">Iniciar sesión / Registrarse</a>
+          </div>
+          <div id="user-options" style="display: none;"></div>
+        </div>
+      </div>
     </div>
-        <div id="profile-container">
-  <div id="profile-icon" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background-color: #fff;"></div>
-  <div id="profile-menu" style="display: none; position: absolute; right: 0; top: 40px; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; min-width: 160px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); z-index: 1000;">
-    <div id="auth-options">
-      <a href="auth.html" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Iniciar sesión / Registrarse</a>
-    </div>
-    <div id="user-options" style="display: none;"></div>
-  </div>
-</div>
   </nav>
 
   <h1>Ejemplos de negocios creados con ZetaForge</h1>
@@ -242,67 +237,74 @@
       <a href="legal.html">Términos y condiciones</a>
     </div>
   </footer>
-</body>
+
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
-    authDomain: "zetaforgeapp.firebaseapp.com",
-    projectId: "zetaforgeapp"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyByCJL75z6VNb63V-KWMP7fAATN1empMQ8",
+      authDomain: "zetaforgeapp.firebaseapp.com",
+      projectId: "zetaforgeapp"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  const profileIcon = document.getElementById("profile-icon");
-  const profileMenu = document.getElementById("profile-menu");
-  const authOptions = document.getElementById("auth-options");
-  const userOptions = document.getElementById("user-options");
+    const profileIcon = document.getElementById("profile-icon");
+    const profileMenu = document.getElementById("profile-menu");
+    const authOptions = document.getElementById("auth-options");
+    const userOptions = document.getElementById("user-options");
 
-  profileIcon.addEventListener("click", () => {
-    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-  });
+    profileIcon.addEventListener("click", () => {
+      profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+    });
 
-  window.addEventListener("click", (e) => {
-    if (!document.getElementById("profile-container").contains(e.target)) {
-      profileMenu.style.display = "none";
-    }
-  });
-
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userRef = doc(db, "usuarios", user.uid);
-        const userSnap = await getDoc(userRef);
-        const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
-        const bgColor = userSnap.data().avatarBgColor || "#ffffff";
-
-        profileIcon.style.backgroundColor = bgColor;
-        authOptions.style.display = "none";
-        userOptions.style.display = "block";
-        userOptions.innerHTML = `
-          <div style="padding: 8px 12px; font-weight: bold; color: #6a0dad;">👤 ${username}</div>
-          <a href="cuenta.html" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Perfil</a>
-          <a href="#" id="logout" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Cerrar sesión</a>
-        `;
-
-        document.getElementById("logout").addEventListener("click", async (e) => {
-          e.preventDefault();
-          await signOut(auth);
-          location.reload();
-        });
-      } catch (error) {
-        console.error("Error al obtener los datos del usuario:", error);
+    window.addEventListener("click", (e) => {
+      if (!document.getElementById("profile-container").contains(e.target)) {
+        profileMenu.style.display = "none";
       }
-    } else {
-      authOptions.style.display = "block";
-      userOptions.style.display = "none";
-    }
-  });
-</script>
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userRef = doc(db, "usuarios", user.uid);
+          const userSnap = await getDoc(userRef);
+          const data = userSnap.data();
+          const username = data.username || "(sin nombre)";
+          const bgColor = data.avatarBgColor || "#ffffff";
+          const photoURL = data.photoURL;
+
+          profileIcon.style.backgroundColor = bgColor;
+          if (photoURL) profileIcon.src = photoURL;
+
+          authOptions.style.display = "none";
+          userOptions.style.display = "block";
+          userOptions.innerHTML = `
+            <div style="padding: 8px 12px; font-weight: bold; color: #6a0dad;">👤 ${username}</div>
+            <a href="cuenta.html">Perfil</a>
+            <a href="#" id="logout">Cerrar sesión</a>
+          `;
+
+          document.getElementById("logout").addEventListener("click", async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            location.reload();
+          });
+
+        } catch (error) {
+          console.error("Error al obtener datos del usuario:", error);
+        }
+      } else {
+        authOptions.style.display = "block";
+        userOptions.style.display = "none";
+      }
+    });
+  </script>
+</body>
 </html>
+
 
