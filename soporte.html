@@ -1,31 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><title>Soporte - ZetaForge</title></head>
-<body style="background: #111; color: #fff; font-family: Inter, sans-serif;">
-<nav style="background-color: #0d0d0d; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
-  <div style="font-weight: bold; font-size: 1.4rem; color: #ffffff;">ZetaForge</div>
-  <div style="display: flex; gap: 20px;">
-    <a href="index.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Inicio</a>
-    <a href="ejemplos.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Ejemplos</a>
-    <a href="soporte.html" style="color: #aaa; text-decoration: none; font-weight: 500;">Soporte</a>
-    <a href="forgepro.html" style="color: #6a0dad; text-decoration: none; font-weight: 600;">Zeta Pro</a>
-    <a href="https://tally.so/r/m6GvdB" style="background: #6a0dad; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Empezar</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soporte - ZetaForge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #f4f4f4;
+      line-height: 1.6;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #0d0d0d;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-left a, .nav-right a {
+      color: #aaa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav-left a[href="forgepro.html"] {
+      color: #6a0dad;
+      font-weight: 600;
+    }
+    .cta-btn {
+      background: #6a0dad;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .cta-btn:hover {
+      background-color: #8b2bff;
+    }
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .logo {
+      height: 72px;
+      filter: drop-shadow(0 0 5px #fff);
+    }
+    h1 {
+      text-align: center;
+      margin-top: 80px;
+      font-size: 2.5rem;
+    }
+    .faq-block {
+      background: #1a1a1a;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 800px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    }
+    .faq-block h3 {
+      margin-top: 0;
+      color: #6a0dad;
+    }
+    footer {
+      text-align: center;
+      padding: 30px 20px 10px;
+      font-size: 0.8rem;
+      color: #888;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: #0d0d0d;
+    }
+    footer a {
+      color: #6a0dad;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">Inicio</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="soporte.html">Soporte</a>
+      <a href="forgepro.html">Zeta Pro</a>
+    </div>
+    <div class="nav-center">
+      <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" class="logo">
+    </div>
+    <div class="nav-right">
+      <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
+    </div>
+  </nav>
+
+  <h1>¿Necesitás ayuda?</h1>
+
+  <div class="faq-block">
+    <h3>📩 ¿Cómo puedo contactar a soporte?</h3>
+    <p>Podés escribirnos directamente a <strong>zetaforge.soporte@gmail.com</strong> y te responderemos en menos de 24 horas hábiles.</p>
   </div>
-</nav>
-  <h1 style="text-align:center; margin-top: 60px;">¿Necesitás ayuda?</h1>
-  <div style="max-width: 700px; margin: 40px auto;">
-    <p>Podés escribirnos a <strong>soporte@zeta.ai</strong> o completar el formulario.</p>
-    <ul>
-      <li>❓ <strong>¿Cuánto tarda en llegar mi negocio?</strong> Entre 1 y 3 minutos</li>
-      <li>❓ <strong>¿Es gratis?</strong> Sí, la versión básica es completamente gratuita.</li>
-      <li>❓ <strong>¿Puedo pedir algo personalizado?</strong> Sí, desde Zeta Pro.</li>
-    </ul>
+
+  <div class="faq-block">
+    <h3>⏱️ ¿Cuánto tarda en generarse un negocio?</h3>
+    <p>Generalmente entre <strong>1 y 3 minutos</strong>. Si tarda más, podés cerrar sesión y volver a ingresar. Si el problema persiste, contactanos.</p>
   </div>
-<footer>
-  ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales
-  <div style="margin-top: 20px; text-align: center; font-size: 0.8rem;">
-    <a href="legal.html" style="color: #6a0dad; text-decoration: none;">Términos y condiciones</a>
+
+  <div class="faq-block">
+    <h3>💸 ¿ZetaForge es gratuito?</h3>
+    <p>Sí, el acceso al plan <strong>Free</strong> es completamente gratuito y podés crear negocios básicos sin pagar nada.</p>
   </div>
-</footer>
+
+  <div class="faq-block">
+    <h3>🎨 ¿Puedo pedir personalizaciones específicas?</h3>
+    <p>¡Sí! Si querés logos premium, estrategias personalizadas o textos avanzados, podés actualizarte al plan <strong>Zeta Pro</strong>.</p>
+  </div>
+
+  <div class="faq-block">
+    <h3>⚙️ ¿Puedo editar mi perfil o cambiar mi información?</h3>
+    <p>Desde tu cuenta podés cambiar el nombre de usuario, correo o color del avatar. Próximamente se habilitarán más opciones.</p>
+  </div>
+
+  <footer>
+    ZETA / ZetaForge © 2025 | Hecho con IA para emprendedores reales.<br>
+    <div style="margin-top: 10px">
+      <a href="legal.html">Términos y condiciones</a>
+    </div>
+  </footer>
 </body>
 </html>
+
