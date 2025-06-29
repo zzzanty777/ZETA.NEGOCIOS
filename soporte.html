@@ -6,15 +6,12 @@
   <title>Soporte - ZetaForge</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
       color: #f4f4f4;
     }
-
     nav {
       display: flex;
       align-items: center;
@@ -24,24 +21,20 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
-
     .nav-left, .nav-right {
       display: flex;
       align-items: center;
       gap: 20px;
     }
-
     .nav-left a, .nav-right a {
       color: #aaa;
       text-decoration: none;
       font-weight: 500;
     }
-
     .nav-left a[href="forgepro.html"] {
       color: #6a0dad;
       font-weight: 600;
     }
-
     .cta-btn {
       background: #6a0dad;
       color: white;
@@ -50,51 +43,67 @@
       text-decoration: none;
       font-weight: 600;
     }
-
-    .cta-btn:hover {
-      background-color: #8b2bff;
-    }
-
     .nav-center {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
     }
-
     .logo {
       height: 72px;
       filter: drop-shadow(0 0 5px #fff);
     }
-
+    #profile-container {
+      position: relative;
+    }
+    #profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #fff;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    #profile-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    #profile-menu a {
+      display: block;
+      padding: 8px 12px;
+      color: #ccc;
+      text-decoration: none;
+    }
     h1 {
       text-align: center;
       margin-top: 80px;
-      font-size: 2.3rem;
+      font-size: 2.5rem;
     }
-
-    .faq-bloque {
+    .bloque {
       background: #1a1a1a;
-      margin: 30px auto;
-      padding: 25px;
-      border-radius: 12px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 16px;
       max-width: 800px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-
-    .faq-bloque h3 {
-      margin-top: 0;
-      color: #6a0dad;
-    }
-
     footer {
       text-align: center;
       padding: 30px 20px 10px;
       font-size: 0.8rem;
       color: #888;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       background-color: #0d0d0d;
     }
-
     footer a {
       color: #6a0dad;
       text-decoration: none;
@@ -109,45 +118,32 @@
       <a href="soporte.html">Soporte</a>
       <a href="forgepro.html">Zeta Pro</a>
     </div>
-
     <div class="nav-center">
       <img src="https://raw.githubusercontent.com/zzzanty777/ZETA.NEGOCIOS/main/logo.png" alt="ZetaForge" class="logo">
     </div>
-
     <div class="nav-right">
       <a href="https://tally.so/r/m6GvdB" class="cta-btn">Empezar</a>
-      <div id="profile-container" style="position: relative;">
-        <div id="profile-icon" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background-color: #fff;"></div>
-        <div id="profile-menu" style="display: none; position: absolute; right: 0; top: 40px; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; min-width: 160px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); z-index: 1000;">
+      <div id="profile-container">
+        <div id="profile-icon"></div>
+        <div id="profile-menu">
           <div id="auth-options">
-            <a href="auth.html" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Iniciar sesión / Registrarse</a>
+            <a href="auth.html">Iniciar sesión / Registrarse</a>
           </div>
-          <div id="user-options" style="display: none;"></div>
+          <div id="user-options" style="display:none;"></div>
         </div>
       </div>
     </div>
   </nav>
 
   <h1>¿Necesitás ayuda?</h1>
-
-  <div class="faq-bloque">
-    <h3>📩 ¿Cómo contacto a soporte?</h3>
-    <p>Podés escribirnos a <strong>zetaforge.soporte@gmail.com</strong> y te responderemos en menos de 24 hs.</p>
-  </div>
-
-  <div class="faq-bloque">
-    <h3>⏱ ¿Cuánto tarda en llegar mi negocio?</h3>
-    <p>Recibirás tu propuesta entre 1 y 3 minutos después de completar el formulario.</p>
-  </div>
-
-  <div class="faq-bloque">
-    <h3>💸 ¿ZetaForge es gratis?</h3>
-    <p>¡Sí! Puedes usar la versión Free sin límites. También puedes pasar a Zeta Pro si quieres ideas más avanzadas y personalizadas.</p>
-  </div>
-
-  <div class="faq-bloque">
-    <h3>🛠 ¿Qué incluye Zeta Pro?</h3>
-    <p>Incluye modelos de negocio únicos, análisis profundo, nombres de dominio más premium, branding detallado y soporte prioritario.</p>
+  <div class="bloque">
+    <p>Puedes escribirnos a <strong>zetaforge.soporte@gmail.com</strong> o completar el formulario oficial.</p>
+    <ul>
+      <li><strong>¿Cuánto tarda en llegar mi negocio?</strong> De 1 a 3 minutos normalmente. Si hay mucha demanda, puede tardar hasta 5.</li>
+      <li><strong>¿Es gratis?</strong> Sí. Todo el servicio Free es gratuito. Zeta Pro es una opción opcional para obtener entregas más avanzadas.</li>
+      <li><strong>¿Puedo pedir cambios personalizados?</strong> Sí, desde Zeta Pro. El formulario incluye un campo para pedir branding especial, nichos nuevos y más.</li>
+      <li><strong>No he recibido mi entrega</strong> Envia un correo y te ayudamos. Asegurate de haber usado un correo válido.</li>
+    </ul>
   </div>
 
   <footer>
@@ -191,24 +187,19 @@
       if (user) {
         const userRef = doc(db, "usuarios", user.uid);
         const userSnap = await getDoc(userRef);
-        const username = userSnap.exists() ? userSnap.data().username : "Usuario";
+        const username = userSnap.exists() ? userSnap.data().username : "(sin nombre)";
         const bgColor = userSnap.data().avatarBgColor || "#ffffff";
-        const photoURL = userSnap.data().photoURL;
+        const photoURL = userSnap.data().photoURL || "https://www.svgrepo.com/show/512529/user-circle.svg";
 
-        if (photoURL) {
-          profileIcon.style.backgroundImage = `url(${photoURL})`;
-          profileIcon.style.backgroundSize = "cover";
-          profileIcon.style.backgroundPosition = "center";
-        } else {
-          profileIcon.style.backgroundColor = bgColor;
-        }
+        profileIcon.style.backgroundColor = bgColor;
+        profileIcon.style.backgroundImage = `url(${photoURL})`;
 
         authOptions.style.display = "none";
         userOptions.style.display = "block";
         userOptions.innerHTML = `
           <div style="padding: 8px 12px; font-weight: bold; color: #6a0dad;">👤 ${username}</div>
-          <a href="cuenta.html" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Perfil</a>
-          <a href="#" id="logout" style="display: block; padding: 8px 12px; color: #ccc; text-decoration: none;">Cerrar sesión</a>
+          <a href="cuenta.html">Perfil</a>
+          <a href="#" id="logout">Cerrar sesión</a>
         `;
 
         document.getElementById("logout").addEventListener("click", async (e) => {
